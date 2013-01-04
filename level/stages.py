@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 
 #	{{{ import
-import pygame, sys, random, time, os
+import pygame, sys, random, os
 from pygame.locals import *
-#from engines import OneOutOfTwo, Space_Engine, Balloon_Engine, CatchMeIfYouCan, OneOutOfThree
 from helpers.log import Log_Handler, Trial_Logger
 from helpers import Stop_Watch
 #	}}}
@@ -378,7 +377,8 @@ class Stage:
 
 class Monster1(Stage):
 
-	def __init__(self):
+	def __init__(self, prob_code = 'test'):
+		self.prob_code = prob_code
 		Stage.__init__(self,True,True)
 		self.start('Teil 1')
 #		self.play_instruction('audio/intro_begin.ogg')
@@ -439,7 +439,8 @@ class Monster1(Stage):
 
 class Monster2(Monster1):
 
-	def __init__(self):
+	def __init__(self, prob_code = 'test'):
+		self.prob_code = prob_code
 		Stage.__init__(self,True,True)
 		self.start('Teil 2')
 
@@ -452,3 +453,5 @@ class Monster2(Monster1):
 
 		self.play_instruction('audio/intro_test.ogg')
 		self.test_monster(monster,sound_dic,'monster2_test',False)
+		
+		self.play_intsruction('audio/quit.ogg')
