@@ -384,6 +384,24 @@ class Monster1(Stage):
 #		self.play_instruction('audio/intro_begin.ogg')
 		monster = ['images/monster1.jpg','images/monster2.jpg']
 		
+		sound_dic = self.load_monster_sound()
+
+		self.teach_monster(monster[0],self.load_sound(os.path.join(self.path,'audio/intro_pic_M1.ogg')))
+		self.teach_monster(monster[1],self.load_sound(os.path.join(self.path,'audio/intro_pic_M2.ogg')))
+		self.play_instruction('audio/instr1.ogg')
+
+		self.play_instruction('audio/intro_train.ogg')
+
+		self.test_monster(monster,sound_dic,'monster1_train',True)
+
+		self.play_instruction('audio/intro_test.ogg')
+
+		self.test_monster(monster,sound_dic,'monster1_test',False)
+
+		self.play_instruction('audio/quit.ogg')
+		
+	def load_monster_sound(self):
+
 		sound_dic = {}
 		sound_dic[0] = {}
 		sound_dic[0]['bla'] = []
@@ -416,18 +434,21 @@ class Monster1(Stage):
 		sound_dic[1]['neg'].append(self.load_sound(os.path.join(self.path,'audio/neg_resp_M2_2.ogg')))
 		sound_dic[1]['neg'].append(self.load_sound(os.path.join(self.path,'audio/neg_resp_M2_1.ogg')))
 
+		return sound_dic
 
-#		self.teach_monster(monster[0],self.load_sound(os.path.join(self.path,'audio/intro_pic_M1.ogg')))
-#		self.teach_monster(monster[1],self.load_sound(os.path.join(self.path,'audio/intro_pic_M2.ogg')))
-#		self.play_instruction('audio/instr1.ogg')
 
-#		self.play_instruction('audio/intro_train.ogg')
+class Monster2(Monster1):
 
-#		self.test_monster(monster,sound_dic,'monster1_train',True)
+	def __init__(self):
+		Stage.__init__(self,True,True)
+		self.start('Teil 2')
 
-#		self.play_instruction('audio/intro_test.ogg')
+		monster = ['images/li.png','images/ka.png']
+		self.teach_monster(monster[0],self.load_sound(os.path.join(self.path,'audio/intro_sym_M1.ogg')))
+		self.teach_monster(monster[1],self.load_sound(os.path.join(self.path,'audio/intro_sym_M2.ogg')))
 
-		self.test_monster(monster,sound_dic,'monster1_test',False)
+		self.play_instruction('audio/intro_train.ogg')
+		self.test_monster(monster,sound_dic,'monster2_train',True)
 
-#		self.play_instruction('audio/quit.ogg')
-		
+		self.play_instruction('audio/intro_test.ogg')
+		self.test_monster(monster,sound_dic,'monster2_test',False)
