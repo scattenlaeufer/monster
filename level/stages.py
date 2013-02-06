@@ -3,8 +3,8 @@
 #	{{{ import
 import pygame, sys, random, os
 from pygame.locals import *
-from helpers.log import Log_Handler, Trial_Logger
-from helpers import Stop_Watch
+from helpers.log import Monster_Logger
+from helpers import Stop_Watch, Trial_Data
 #	}}}
 
 #	{{{ class Stage
@@ -262,40 +262,47 @@ class Stage:
 #	}}}
 
 #	{{{ test_monster
-	def test_monster(self,monster,dic,log_title,response=True,n=8):
+	def test_monster(self,monster,dic,data,log,response=True,n=8):
 
 		miss = 0
+		correct_resp = 0
 		sw = Stop_Watch()
-		log = Trial_Logger(log_title)
 		log.set_top('trial_nr\tkey_pressed\tresponse\tresponse_time')
 		m = 1
 		side = []
 
 		for i in range(n):
 			self.surface.fill(self.bg_blank)
-			a = True
-			while a:
-				correct = random.randint(0,1)
-				if len(side) == 0:
-					side.append(correct)
-					a = False
-				elif side[len(side)-1] == correct:
-					if len(side) < 2:
-						side.append(correct)
-						a = False
-				else:
-					side = [correct]
-					a = False
-						
+#			a = True
+#			while a:
+#				correct = random.randint(0,1)
+#				if len(side) == 0:
+#					side.append(correct)
+#					a = False
+#				elif side[len(side)-1] == correct:
+#					if len(side) < 2:
+#						side.append(correct)
+#						a = False
+#				else:
+#					side = [correct]
+#					a = False
 
-			image = pygame.image.load(os.path.join(self.path,monster[correct]))
+			trial = data.get_trial()
+			print(trial)
+			image = pygame.image.load(os.path.join(self.path,monster[trial[0]]))
+
+			if trial[2] == '"congruent"':
+				correct = 1
+			else:
+				correct = 0
 
 			self.draw(image,(self.position_center_width(image),self.position_center_height(image)))
 
 			pygame.display.update()
 			
-			sound = random.randint(0,1)
+			sound = int(trial[1][2]) - 1
 			dic[sound]['bla'][random.randint(0,4)].play()
+			print(trial[0]+' - '+str(correct)+' - '+str(sound))
 			sw.start()
 
 			key_pressed = False
@@ -318,10 +325,14 @@ class Stage:
 						except UnicodeDecodeError:
 							print(event.key)
 
-				if press == (correct == sound) and key_pressed:
+				if press == correct and key_pressed:
 					log.add([m,press,int(press==correct),sw.get_time()])
 					if response:
-						dic[correct]['pos'][random.randint(0,2)].play()
+						if correct == 1:
+							dic[sound]['pos'][random.randint(0,2)].play()
+						else:
+							dic[int(bin(sound+1)[-1])]['pos'][random.randint(0,2)].play()
+						correct_resp += 1
 						pygame.time.wait(3700)
 					else:
 						pygame.time.wait(250)
@@ -331,11 +342,12 @@ class Stage:
 					pygame.display.update()
 					pygame.time.wait(250)
 					break
-				if press != (correct == sound) and key_pressed:
+				if press != correct and key_pressed:
 					log.add([m,press,int(press==correct),sw.get_time()])
 					miss += 1
 					if response:
-						dic[correct]['neg'][random.randint(0,2)].play()
+						dic[int(bin(sound+1)[-1])]['neg'][random.randint(0,2)].play()
+						correct_resp -= 1
 						pygame.time.wait(4500)
 						dic[sound]['bla'][random.randint(0,4)].play()
 						key_pressed = False
@@ -352,8 +364,9 @@ class Stage:
 
 			pygame.time.wait(500)
 			m += 1
+			if correct_resp >= 5:
+				break
 
-		log.save()
 		return miss
 #	}}}
 
@@ -382,21 +395,23 @@ class Monster1(Stage):
 		Stage.__init__(self,True,True)
 		self.start('Teil 1')
 #		self.play_instruction('audio/intro_begin.ogg')
-		monster = ['images/monster1.jpg','images/monster2.jpg']
+		monster = {'"pic_M1.bmp"':'images/monster1.jpg','"pic_M2.bmp"':'images/monster2.jpg'}
 		
 		sound_dic = self.load_monster_sound()
 
-		self.teach_monster(monster[0],self.load_sound(os.path.join(self.path,'audio/intro_pic_M1.ogg')))
-		self.teach_monster(monster[1],self.load_sound(os.path.join(self.path,'audio/intro_pic_M2.ogg')))
-		self.play_instruction('audio/instr1.ogg')
+#		self.teach_monster(monster[0],self.load_sound(os.path.join(self.path,'audio/intro_pic_M1.ogg')))
+#		self.teach_monster(monster[1],self.load_sound(os.path.join(self.path,'audio/intro_pic_M2.ogg')))
+#		self.play_instruction('audio/instr1.ogg')
 
-		self.play_instruction('audio/intro_train.ogg')
+#		self.play_instruction('audio/intro_train.ogg')
 
-		self.test_monster(monster,sound_dic,'monster1_train',True)
+		log = Monster_Logger('monster1_teach',self.prob_code)
+		self.test_monster(monster,sound_dic,Trial_Data('level/data/mon1/learn.dat'),log,True,10)
 
 		self.play_instruction('audio/intro_test.ogg')
 
-		self.test_monster(monster,sound_dic,'monster1_test',False)
+		log = Monster_Logger('monster1_test',self.prob_code)
+		self.test_monster(monster,sound_dic,Trial_Data('level/data/mon1/test.dat'),log,False,20)
 
 		self.play_instruction('audio/quit.ogg')
 		
@@ -444,14 +459,18 @@ class Monster2(Monster1):
 		Stage.__init__(self,True,True)
 		self.start('Teil 2')
 
-		monster = ['images/li.png','images/ka.png']
-		self.teach_monster(monster[0],self.load_sound(os.path.join(self.path,'audio/intro_sym_M1.ogg')))
-		self.teach_monster(monster[1],self.load_sound(os.path.join(self.path,'audio/intro_sym_M2.ogg')))
+		sound_dic = self.load_monster_sound()
 
-		self.play_instruction('audio/intro_train.ogg')
-		self.test_monster(monster,sound_dic,'monster2_train',True)
+		monster = {'"Φ"':'images/li.png','"Ψ"':'images/ka.png'}
+#		self.teach_monster(monster[0],self.load_sound(os.path.join(self.path,'audio/intro_sym_M1.ogg')))
+#		self.teach_monster(monster[1],self.load_sound(os.path.join(self.path,'audio/intro_sym_M2.ogg')))
 
-		self.play_instruction('audio/intro_test.ogg')
-		self.test_monster(monster,sound_dic,'monster2_test',False)
+#		self.play_instruction('audio/intro_train.ogg')
+		log = Monster_Logger('monster2_teach',self.prob_code)
+		self.test_monster(monster,sound_dic,Trial_Data('level/data/mon2/learn.dat'),log,True,10)
+
+#		self.play_instruction('audio/intro_test.ogg')
+		log = Monster_Logger('monster2_test',self.prob_code)
+		self.test_monster(monster,sound_dic,Trial_Data('level/data/mon2/test.dat'),log,False,20)
 		
 		self.play_intsruction('audio/quit.ogg')

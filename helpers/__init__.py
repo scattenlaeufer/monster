@@ -55,6 +55,8 @@ class Trial_Data:
 
 	def __init__(self,data_source):
 
+		self.count = 0
+
 		with open(data_source, mode='r') as data_file:
 			data_str = data_file.read()
 
@@ -82,10 +84,9 @@ class Trial_Data:
 
 
 	def get_trial(self):
-		if len(self.data)-1 >= 0:
-			i = random.randint(0,len(self.data)-1)
-			out = self.data[i]
-			return i,out
+		if len(self.data)-1 >= 1:
+			self.count += 1
+			return self.data[self.count]
 		else:
 			return None,None
 
