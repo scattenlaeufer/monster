@@ -405,7 +405,7 @@ class Monster1(Stage):
 
 #		self.play_instruction('audio/intro_train.ogg')
 
-		log = Monster_Logger('monster1_teach',self.prob_code)
+		log = Monster_Logger('monster1_learn',self.prob_code)
 		self.test_monster(monster,sound_dic,Trial_Data('level/data/mon1/learn.dat'),log,True,10)
 
 		self.play_instruction('audio/intro_test.ogg')
@@ -466,7 +466,7 @@ class Monster2(Monster1):
 #		self.teach_monster(monster[1],self.load_sound(os.path.join(self.path,'audio/intro_sym_M2.ogg')))
 
 #		self.play_instruction('audio/intro_train.ogg')
-		log = Monster_Logger('monster2_teach',self.prob_code)
+		log = Monster_Logger('monster2_learn',self.prob_code)
 		self.test_monster(monster,sound_dic,Trial_Data('level/data/mon2/learn.dat'),log,True,10)
 
 #		self.play_instruction('audio/intro_test.ogg')
@@ -474,3 +474,15 @@ class Monster2(Monster1):
 		self.test_monster(monster,sound_dic,Trial_Data('level/data/mon2/test.dat'),log,False,20)
 		
 		self.play_intsruction('audio/quit.ogg')
+
+
+class Monster3(Monster1):
+
+	def __init__(self,prob_code = 'test'):
+		self.prob_code = prob_code
+		Stage.__init__(self,True,True)
+		self.start('Teil 3')
+
+		sound_dic = self.load_monster_sound()
+
+

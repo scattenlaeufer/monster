@@ -11,7 +11,7 @@ class Monster_Logger:
 		self.log_file = os.path.join(prob_dir,level)
 		if os.path.isdir(prob_dir):
 			if os.path.isfile(self.log_file):
-				overwrite = raw_input('Logfile existiert schon. Überschreiben? [y,n]')
+				overwrite = raw_input('Logfile existiert schon. Überschreiben? [,n]')
 				if overwrite[0].lower() == 'n':
 					exit()
 		else:

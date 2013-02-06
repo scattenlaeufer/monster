@@ -1,6 +1,7 @@
 *.pyc
 *.swp
 helpers/trial_log/*
+helpers/trial_log
 helpers/*.pyc
 level/*.pyc
 test.py
