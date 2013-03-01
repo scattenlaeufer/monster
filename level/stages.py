@@ -2,8 +2,10 @@
 
 #	{{{ import
 import pygame, sys, random, os
+from PyQt4 import QtGui
 from pygame.locals import *
-from helpers.log import Monster_Logger
+from helpers.log import Monster_Logger, Log_Tester
+from helpers.dialog import ProbCodeDialog
 from helpers import Stop_Watch, Trial_Data
 #	}}}
 
@@ -14,6 +16,12 @@ class Stage:
 
 #	{{{ __init__
 	def __init__(self,bla=True,neo=False):
+
+#		self.ask_prob_code('monster1_learn')
+		app = QtGui.QApplication(sys.argv)
+		probDialog = ProbCodeDialog()
+		self.prob_code = probDialog.ask()
+#		log_tester = Log_Tester(self.prob_code,'monster1_learn')
 		
 		self.path = __file__[:-10]
 		self.miss = 0
@@ -24,9 +32,9 @@ class Stage:
 		pygame.init()
 
 		# set window
-		self.windowwidth = 1024
+		self.windowwidth = 1366
 		self.windowheight = 768
-		self.curser_unvisible = False
+		self.curser_unvisible = True
 		self.surface = pygame.display.set_mode((self.windowwidth,self.windowheight),0,32)
 		pygame.display.set_caption('Monster v0.1') 
 
@@ -385,14 +393,21 @@ class Stage:
 			self.play_instruction('audio/feedback/feedback1.ogg',False)
 		pygame.time.wait(1000)
 #	}}}
+
+	def ask_prob_code(self,level):
+		app = QtGui.QApplication(sys.argv)
+		probDialog = ProbCodeDialog()
+		self.prob_code = probDialog.ask()
+		log_tester = Log_Tester(self.prob_code,level)
+
 #	}}}
 
 
 class Monster1(Stage):
 
 	def __init__(self, prob_code = 'test'):
-		self.prob_code = prob_code
 		Stage.__init__(self,True,True)
+#		self.ask_prob_code('monster1_learn')
 		self.start('Teil 1')
 #		self.play_instruction('audio/intro_begin.ogg')
 		monster = {'"pic_M1.bmp"':'images/monster1.jpg','"pic_M2.bmp"':'images/monster2.jpg'}
