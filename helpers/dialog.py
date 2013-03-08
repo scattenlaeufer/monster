@@ -24,7 +24,5 @@ class OverwriteDialog(QtGui.QWidget):
 
 	def ask(self):
 		reply = QtGui.QMessageBox.question(self, u'Überschreiben?', u"Willst du die vorhandenen\nProbandendaten überschreiben?", QtGui.QMessageBox.Yes, QtGui.QMessageBox.No)
-		print('test')
 		if reply != QtGui.QMessageBox.Yes:
-			#exit()
-			print('hier wäre schluss')
+			exit()

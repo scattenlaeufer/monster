@@ -68,10 +68,9 @@ class Trial_Data:
 				self.data.append(par_list)
 
 
-	
 	def __str__(self):
 		out = ''
-		for i in range(len(self.data)-1):
+		for i in range(1,len(self.data)):
 			for j in self.data[i]:
 				out += str(j) +'\t'
 			out += self.data[i].__str__()
@@ -80,7 +79,7 @@ class Trial_Data:
 
 
 	def get_n_trials(self):
-		return len(self.data)
+		return len(self.data)-1
 
 
 	def get_trial(self):

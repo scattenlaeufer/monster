@@ -281,19 +281,6 @@ class Stage:
 
 		for i in range(n):
 			self.surface.fill(self.bg_blank)
-#			a = True
-#			while a:
-#				correct = random.randint(0,1)
-#				if len(side) == 0:
-#					side.append(correct)
-#					a = False
-#				elif side[len(side)-1] == correct:
-#					if len(side) < 2:
-#						side.append(correct)
-#						a = False
-#				else:
-#					side = [correct]
-#					a = False
 
 			trial = data.get_trial()
 			print(trial)
@@ -394,15 +381,17 @@ class Stage:
 		pygame.time.wait(1000)
 #	}}}
 
+#	{{{ ask_prob_code
 	def ask_prob_code(self,level):
 		app = QtGui.QApplication(sys.argv)
 		probDialog = ProbCodeDialog()
 		self.prob_code = probDialog.ask()
 		log_tester = Log_Tester(self.prob_code,level)
+#	}}}
 
 #	}}}
 
-
+#	{{{ Monster1
 class Monster1(Stage):
 
 	def __init__(self, prob_code = 'test'):
@@ -465,8 +454,9 @@ class Monster1(Stage):
 		sound_dic[1]['neg'].append(self.load_sound(os.path.join(self.path,'audio/neg_resp_M2_1.ogg')))
 
 		return sound_dic
+#	}}}
 
-
+#	{{{ Monster2
 class Monster2(Monster1):
 
 	def __init__(self, prob_code = 'test'):
@@ -488,8 +478,8 @@ class Monster2(Monster1):
 		log = Monster_Logger('monster2_test',self.prob_code)
 		self.test_monster(monster,sound_dic,Trial_Data('level/data/mon2/test.dat'),log,False,20)
 		
-		self.play_intsruction('audio/quit.ogg')
-
+		self.play_instruction('audio/quit.ogg')
+#	}}}
 
 class Monster3(Monster1):
 
@@ -500,4 +490,22 @@ class Monster3(Monster1):
 
 		sound_dic = self.load_monster_sound()
 
+		log = Monster_Logger('monster3_cookies',self.prob_code)
+		cookies = {'"cookie_M1.tif"':'images/li_cookie.png','"cookie_M2.tif"':'images/ka_cookie.png'}
+		self.cookie_test(cookies,sound_dic,Trial_Data('level/data/mon3/run_1.dat'),log)
 
+	def cookie_test(self,target,sound,data,log):
+		
+		miss = 0
+		correct_resp = 0
+		sw = Stop_Watch()
+		log.set_top('trial_nr\tkey_pressed\trespones\tresponse_time')
+		print(data)
+
+		for i in range(data.get_n_trials()):
+
+			self.surface.fill(self.bg_blank)
+			trial = data.get_trial()
+			print(trial)
+			sprite = pygame.image.load(os.path.join(self.path,target[trial[1]]))
+			print(sprite)
