@@ -45,3 +45,31 @@ class Monster_Logger:
 	def set_top(self,top):
 		self.log += top
 		self.save()
+
+
+class Monster_Logger2(Monster_Logger):
+
+	def __init__(self,level):
+		main_dir = os.path.join(__file__[:-7],'trial_log')
+		if not os.path.isdir(main_dir):
+			os.mkdir(main_dir)
+
+		app = QtGui.QApplication(sys.argv)
+		probDialog = ProbCodeDialog()
+		prob_code = str(probDialog.ask())
+		if prob_code != '':
+			prob_code = 'test'
+		prob_dir = os.path.join(main_dir,prob_code)
+		if not os.path.isdir(prob_dir):
+			os.mkdir(prob_dir)
+
+		self.level_dir = os.path.join(prob_dir,level)
+		if os.path.isdir(self.level_dir):
+			overwrite = OverwriteDialog()
+			overwrite.ask()
+		else:
+			os.mkdir(self.level_dir)
+
+	def add_new_log(self,log):
+		self.log = ''
+		self.log_file = os.path.join(self.level_dir,log)

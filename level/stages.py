@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
 
+# TODO:
+#	fix negeativ sound response in test_monster(...)
+#	test new logger
+
 #	{{{ import
 import pygame, sys, random, os
 from PyQt4 import QtGui
 from pygame.locals import *
-from helpers.log import Monster_Logger, Log_Tester
+from helpers.log import Monster_Logger2
 from helpers.dialog import ProbCodeDialog
 from helpers import Stop_Watch, Trial_Data
 #	}}}
@@ -18,10 +22,6 @@ class Stage:
 	def __init__(self,bla=True,neo=False):
 
 #		self.ask_prob_code('monster1_learn')
-		app = QtGui.QApplication(sys.argv)
-		probDialog = ProbCodeDialog()
-		self.prob_code = probDialog.ask()
-#		log_tester = Log_Tester(self.prob_code,'monster1_learn')
 		
 		self.path = __file__[:-10]
 		self.miss = 0
@@ -37,7 +37,8 @@ class Stage:
 		self.curser_unvisible = True
 		self.surface = pygame.display.set_mode((self.windowwidth,self.windowheight),0,32)
 		pygame.display.set_caption('Monster v0.1') 
-#		self.toggle_fullscreen()
+		pygame.display.toggle_fullscreen()
+		pygame.mouse.set_visible(False)
 
 #		self.bg_blank = (194,194,194)
 		self.bg_blank = (255,255,255)
@@ -401,8 +402,8 @@ class Stage:
 class Monster1(Stage):
 
 	def __init__(self, prob_code = 'test'):
+		log = Monster_Logger2('monster1')
 		Stage.__init__(self,True,True)
-#		self.ask_prob_code('monster1_learn')
 		self.start('Teil 1')
 #		self.play_instruction('audio/intro_begin.ogg')
 		monster = {'"pic_M1.bmp"':'images/monster1.jpg','"pic_M2.bmp"':'images/monster2.jpg'}
@@ -415,12 +416,12 @@ class Monster1(Stage):
 
 #		self.play_instruction('audio/intro_train.ogg')
 
-		log = Monster_Logger('monster1_learn',self.prob_code)
+		log.add_new_log('learn')
 		self.test_monster(monster,sound_dic,Trial_Data('level/data/mon1/learn.dat'),log,True,10)
 
 		self.play_instruction('audio/intro_test.ogg')
 
-		log = Monster_Logger('monster1_test',self.prob_code)
+		log.add_new_log('test')
 		self.test_monster(monster,sound_dic,Trial_Data('level/data/mon1/test.dat'),log,False,20)
 
 		self.play_instruction('audio/quit.ogg')
@@ -465,8 +466,8 @@ class Monster1(Stage):
 #	{{{ Monster2
 class Monster2(Monster1):
 
-	def __init__(self, prob_code = 'test'):
-		self.prob_code = prob_code
+	def __init__(self):
+		log = Monster_Logger2('monster2')
 		Stage.__init__(self,True,True)
 		self.start('Teil 2')
 
@@ -477,11 +478,11 @@ class Monster2(Monster1):
 #		self.teach_monster(monster[1],self.load_sound(os.path.join(self.path,'audio/intro_sym_M2.ogg')))
 
 #		self.play_instruction('audio/intro_train.ogg')
-		log = Monster_Logger('monster2_learn',self.prob_code)
+		log.add_new_log('learn')
 		self.test_monster(monster,sound_dic,Trial_Data('level/data/mon2/learn.dat'),log,True,10)
 
 #		self.play_instruction('audio/intro_test.ogg')
-		log = Monster_Logger('monster2_test',self.prob_code)
+		log.add_new_log('test')
 		self.test_monster(monster,sound_dic,Trial_Data('level/data/mon2/test.dat'),log,False,20)
 		
 		self.play_instruction('audio/quit.ogg')
@@ -493,18 +494,18 @@ class Monster3(Monster1):
 
 #	{{{ __init__
 
-	def __init__(self,prob_code = 'test'):
-		self.prob_code = prob_code
+	def __init__(self):
+		log = Monster_Logger2('monster3')
 		Stage.__init__(self,True,True)
 		self.start('Teil 3')
 
-		log = Monster_Logger('monster3_cookies',self.prob_code)
+		log.add_new_log('cookies')
 		cookies = {'"cookie_M1.tif"':self.load_sprite('images/li_cookie.png'),'"cookie_M2.tif"':self.load_sprite('images/ka_cookie.png')}
 
 		top = {'r':self.load_sprite('images/li_g.png'),'l':self.load_sprite('images/ka_r.png')}
 		#self.cookie_test(cookies,top,Trial_Data('level/data/mon3/run_1.dat'),log)
 
-		log = Monster_Logger('monster3_monster',self.prob_code)
+		log.add_new_log('monster')
 		monster = {'"pic_M1.tif"':self.load_sprite('images/monster1.jpg'),'"pic_M2.tif"':self.load_sprite('images/monster2.jpg')}
 		top = {'r':self.load_sprite('images/li_cookie_g.png'),'l':self.load_sprite('images/ka_cookie_r.png')}
 		self.cookie_test(monster,top,Trial_Data('level/data/mon3/run_2.dat'),log)
