@@ -13,7 +13,7 @@ class ProbCodeDialog(QtGui.QWidget):
 			if text == '':
 				return 'test'
 			else:
-				return text
+				return str(text)
 		else:
 			exit()
 

@@ -19,7 +19,7 @@ class Monster_Logger:
 		if prob_code == '':
 			probDialog = ProbCodeDilog()
 			prob_code = probDialog.ask()
-		prob_dir = os.path.join(__file__[:-7],'trial_log/',prob_code)
+		prob_dir = os.path.join(__file__[:-7],'trial_log',prob_code)
 		self.log_file = os.path.join(prob_dir,level)
 		if os.path.isdir(prob_dir):
 			if os.path.isfile(self.log_file):

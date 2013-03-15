@@ -37,6 +37,7 @@ class Stage:
 		self.curser_unvisible = True
 		self.surface = pygame.display.set_mode((self.windowwidth,self.windowheight),0,32)
 		pygame.display.set_caption('Monster v0.1') 
+#		self.toggle_fullscreen()
 
 #		self.bg_blank = (194,194,194)
 		self.bg_blank = (255,255,255)
@@ -269,6 +270,15 @@ class Stage:
 		return int(width * ratio)
 #	}}}
 
+#	{{{ transform_width
+	def transform_width(self,item,height):
+
+		x = item.get_size()[0]
+		y = item.get_size()[1]
+		ratio = float(x)/float(y)
+		return int(height * ratio)
+#	}}}
+
 #	{{{ test_monster
 	def test_monster(self,monster,dic,data,log,response=True,n=8):
 
@@ -276,14 +286,12 @@ class Stage:
 		correct_resp = 0
 		sw = Stop_Watch()
 		log.set_top('trial_nr\tkey_pressed\tresponse\tresponse_time')
-		m = 1
 		side = []
 
-		for i in range(n):
+		for i in range(data.get_n_trials()):
 			self.surface.fill(self.bg_blank)
 
 			trial = data.get_trial()
-			print(trial)
 			image = pygame.image.load(os.path.join(self.path,monster[trial[0]]))
 
 			if trial[2] == '"congruent"':
@@ -297,7 +305,6 @@ class Stage:
 			
 			sound = int(trial[1][2]) - 1
 			dic[sound]['bla'][random.randint(0,4)].play()
-			print(trial[0]+' - '+str(correct)+' - '+str(sound))
 			sw.start()
 
 			key_pressed = False
@@ -321,7 +328,7 @@ class Stage:
 							print(event.key)
 
 				if press == correct and key_pressed:
-					log.add([m,press,int(press==correct),sw.get_time()])
+					log.add([i+1,press,int(press==correct),sw.get_time()])
 					if response:
 						if correct == 1:
 							dic[sound]['pos'][random.randint(0,2)].play()
@@ -338,7 +345,7 @@ class Stage:
 					pygame.time.wait(250)
 					break
 				if press != correct and key_pressed:
-					log.add([m,press,int(press==correct),sw.get_time()])
+					log.add([i+1,press,int(press==correct),sw.get_time()])
 					miss += 1
 					if response:
 						dic[int(bin(sound+1)[-1])]['neg'][random.randint(0,2)].play()
@@ -358,9 +365,8 @@ class Stage:
 				self.mainClock.tick(40)
 
 			pygame.time.wait(500)
-			m += 1
-			if correct_resp >= 5:
-				break
+#			if correct_resp >= 5:
+#				break
 
 		return miss
 #	}}}
@@ -481,31 +487,95 @@ class Monster2(Monster1):
 		self.play_instruction('audio/quit.ogg')
 #	}}}
 
+#	{{{ Monster 3
+
 class Monster3(Monster1):
+
+#	{{{ __init__
 
 	def __init__(self,prob_code = 'test'):
 		self.prob_code = prob_code
 		Stage.__init__(self,True,True)
 		self.start('Teil 3')
 
-		sound_dic = self.load_monster_sound()
-
 		log = Monster_Logger('monster3_cookies',self.prob_code)
-		cookies = {'"cookie_M1.tif"':'images/li_cookie.png','"cookie_M2.tif"':'images/ka_cookie.png'}
-		self.cookie_test(cookies,sound_dic,Trial_Data('level/data/mon3/run_1.dat'),log)
+		cookies = {'"cookie_M1.tif"':self.load_sprite('images/li_cookie.png'),'"cookie_M2.tif"':self.load_sprite('images/ka_cookie.png')}
 
-	def cookie_test(self,target,sound,data,log):
+		top = {'r':self.load_sprite('images/li_g.png'),'l':self.load_sprite('images/ka_r.png')}
+		#self.cookie_test(cookies,top,Trial_Data('level/data/mon3/run_1.dat'),log)
+
+		log = Monster_Logger('monster3_monster',self.prob_code)
+		monster = {'"pic_M1.tif"':self.load_sprite('images/monster1.jpg'),'"pic_M2.tif"':self.load_sprite('images/monster2.jpg')}
+		top = {'r':self.load_sprite('images/li_cookie_g.png'),'l':self.load_sprite('images/ka_cookie_r.png')}
+		self.cookie_test(monster,top,Trial_Data('level/data/mon3/run_2.dat'),log)
+
+#	}}}
+
+#	{{{ load_sprite
+
+	def load_sprite(self,path):
+
+		image = pygame.image.load(os.path.join(self.path,path))
+		image = pygame.transform.scale(image,(self.transform_width(image,int(self.windowheight/3)),int(self.windowheight/3)))
+		return image
+
+#	}}}
+
+#	{{{ cookie_test
+
+	def cookie_test(self,target,top,data,log):
 		
 		miss = 0
 		correct_resp = 0
 		sw = Stop_Watch()
-		log.set_top('trial_nr\tkey_pressed\trespones\tresponse_time')
-		print(data)
+		log.set_top('trial_nr\tkey_pressed\tcorrect\tresponse_time')
 
 		for i in range(data.get_n_trials()):
 
 			self.surface.fill(self.bg_blank)
 			trial = data.get_trial()
-			print(trial)
-			sprite = pygame.image.load(os.path.join(self.path,target[trial[1]]))
-			print(sprite)
+			sprite = target[trial[1]]
+
+			if trial[2] == '"2"':
+				correct = 0
+			else:
+				correct = 1
+
+			self.surface.blit(top['l'],(int((self.windowwidth/2-top['l'].get_width())/2),int(self.windowheight/9)))
+			self.surface.blit(top['r'],(int((self.windowwidth/2-top['r'].get_width())/2 + self.windowwidth/2),int(self.windowheight/9)))
+			self.surface.blit(sprite,(int((self.windowwidth-sprite.get_width())/2),int(self.windowheight/2+self.windowheight/9)))
+			pygame.display.update()
+			sw.start()
+
+			key_pressed = False
+			press = -1
+
+			while(True):
+				for event in pygame.event.get():
+					self.standart_event(event)
+
+					if event.type == KEYDOWN:
+						try:
+							if self.left.find(unichr(event.key)) >= 0:
+								sw.stop()
+								press = 0
+								key_pressed = True
+							elif self.right.find(unichr(event.key)) >= 0:
+								sw.stop()
+								press = 1
+								key_pressed = True
+						except UnicodeDecodeError:
+							print(event.key)
+
+				if key_pressed:
+					log.add([i,press,press==correct,sw.get_time()])
+					self.surface.fill(self.bg_blank)
+					pygame.display.update()
+					pygame.time.wait(500)
+					break
+
+				self.mainClock.tick(40)
+
+#	}}}
+
+#	}}}
