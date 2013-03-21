@@ -37,8 +37,8 @@ class Stage:
 		self.curser_unvisible = True
 		self.surface = pygame.display.set_mode((self.windowwidth,self.windowheight),0,32)
 		pygame.display.set_caption('Monster v0.1') 
-		pygame.display.toggle_fullscreen()
-		pygame.mouse.set_visible(False)
+#		pygame.display.toggle_fullscreen()
+#		pygame.mouse.set_visible(False)
 
 #		self.bg_blank = (194,194,194)
 		self.bg_blank = (255,255,255)
@@ -46,7 +46,6 @@ class Stage:
 		self.font1 = pygame.font.Font(None,70)
 
 		if neo:
-			print('jupp')
 			self.left = u'xvlcwuiaeoüöäpzXVLCWUIAEOÜÖÄPZ'
 			self.right = u'khgfqßsnrtdybm,.jKHGFQẞSNRTDYBM–•J'
 		else:
@@ -316,13 +315,13 @@ class Stage:
 				for event in pygame.event.get():
 					self.standart_event(event)
 
-					if event.type == KEYDOWN:
+					if event.type == MOUSEBUTTONDOWN:
 						try:
-							if self.left.find(unichr(event.key)) >= 0:
+							if event.button == 1:
 								sw.stop()
 								press = 0
 								key_pressed = True
-							if self.right.find(unichr(event.key)) >= 0:
+							if event.button == 3:
 								sw.stop()
 								press = 1
 								key_pressed = True
@@ -350,7 +349,10 @@ class Stage:
 					log.add([i+1,press,int(press==correct),sw.get_time()])
 					miss += 1
 					if response:
-						dic[int(bin(sound+1)[-1])]['neg'][random.randint(0,2)].play()
+						if correct == 1:
+							dic[sound]['neg'][random.randint(0,2)].play()
+						else:
+							dic[int(bin(sound)[-1:])]['neg'][random.randint(0,2)].paly()
 						correct_resp -= 1
 						pygame.time.wait(4500)
 						dic[sound]['bla'][random.randint(0,4)].play()
@@ -402,17 +404,17 @@ class Stage:
 #	{{{ Monster1
 class Monster1(Stage):
 
-	def __init__(self, neo=False):
+	def __init__(self):
 		log = Monster_Logger2('monster1')
-		Stage.__init__(self,True,neo=neo)
+		Stage.__init__(self,True)
 		self.start('Teil 1')
 #		self.play_instruction('audio/intro_begin.ogg')
 		monster = {'"pic_M1.bmp"':'images/monster1.jpg','"pic_M2.bmp"':'images/monster2.jpg'}
 		
 		sound_dic = self.load_monster_sound()
 
-#		self.teach_monster(monster[0],self.load_sound(os.path.join(self.path,'audio/intro_pic_M1.ogg')))
-#		self.teach_monster(monster[1],self.load_sound(os.path.join(self.path,'audio/intro_pic_M2.ogg')))
+#		self.teach_monster(monster['"pic_M1.bmp"'],self.load_sound(os.path.join(self.path,'audio/intro_pic_M1.ogg')))
+#		self.teach_monster(monster['"pic_M2.bmp"'],self.load_sound(os.path.join(self.path,'audio/intro_pic_M2.ogg')))
 #		self.play_instruction('audio/instr1.ogg')
 
 #		self.play_instruction('audio/intro_train.ogg')
@@ -467,22 +469,22 @@ class Monster1(Stage):
 #	{{{ Monster2
 class Monster2(Monster1):
 
-	def __init__(self, neo=False):
+	def __init__(self):
 		log = Monster_Logger2('monster2')
-		Stage.__init__(self,True,neo=neo)
+		Stage.__init__(self,True)
 		self.start('Teil 2')
 
 		sound_dic = self.load_monster_sound()
 
 		monster = {'"Φ"':'images/li.png','"Ψ"':'images/ka.png'}
-#		self.teach_monster(monster[0],self.load_sound(os.path.join(self.path,'audio/intro_sym_M1.ogg')))
-#		self.teach_monster(monster[1],self.load_sound(os.path.join(self.path,'audio/intro_sym_M2.ogg')))
+		self.teach_monster(monster['"Φ"'],self.load_sound(os.path.join(self.path,'audio/intro_sym_M1.ogg')))
+		self.teach_monster(monster['"Ψ"'],self.load_sound(os.path.join(self.path,'audio/intro_sym_M2.ogg')))
 
-#		self.play_instruction('audio/intro_train.ogg')
+		self.play_instruction('audio/intro_train.ogg')
 		log.add_new_log('learn')
 		self.test_monster(monster,sound_dic,Trial_Data('level/data/mon2/learn.dat'),log,True,10)
 
-#		self.play_instruction('audio/intro_test.ogg')
+		self.play_instruction('audio/intro_test.ogg')
 		log.add_new_log('test')
 		self.test_monster(monster,sound_dic,Trial_Data('level/data/mon2/test.dat'),log,False,20)
 		
@@ -495,9 +497,9 @@ class Monster3(Monster1):
 
 #	{{{ __init__
 
-	def __init__(self,neo=False):
+	def __init__(self):
 		log = Monster_Logger2('monster3')
-		Stage.__init__(self,True,neo=neo)
+		Stage.__init__(self,True)
 		self.start('Teil 3')
 
 		log.add_new_log('cookies')
@@ -556,13 +558,13 @@ class Monster3(Monster1):
 				for event in pygame.event.get():
 					self.standart_event(event)
 
-					if event.type == KEYDOWN:
+					if event.type == MOUSEBUTTONDOWN:
 						try:
-							if self.left.find(unichr(event.key)) >= 0:
+							if event.button == 1:
 								sw.stop()
 								press = 0
 								key_pressed = True
-							elif self.right.find(unichr(event.key)) >= 0:
+							elif event.button == 3:
 								sw.stop()
 								press = 1
 								key_pressed = True
