@@ -46,6 +46,7 @@ class Stage:
 		self.font1 = pygame.font.Font(None,70)
 
 		if neo:
+			print('jupp')
 			self.left = u'xvlcwuiaeoüöäpzXVLCWUIAEOÜÖÄPZ'
 			self.right = u'khgfqßsnrtdybm,.jKHGFQẞSNRTDYBM–•J'
 		else:
@@ -401,9 +402,9 @@ class Stage:
 #	{{{ Monster1
 class Monster1(Stage):
 
-	def __init__(self, prob_code = 'test'):
+	def __init__(self, neo=False):
 		log = Monster_Logger2('monster1')
-		Stage.__init__(self,True,True)
+		Stage.__init__(self,True,neo=neo)
 		self.start('Teil 1')
 #		self.play_instruction('audio/intro_begin.ogg')
 		monster = {'"pic_M1.bmp"':'images/monster1.jpg','"pic_M2.bmp"':'images/monster2.jpg'}
@@ -466,9 +467,9 @@ class Monster1(Stage):
 #	{{{ Monster2
 class Monster2(Monster1):
 
-	def __init__(self):
+	def __init__(self, neo=False):
 		log = Monster_Logger2('monster2')
-		Stage.__init__(self,True,True)
+		Stage.__init__(self,True,neo=neo)
 		self.start('Teil 2')
 
 		sound_dic = self.load_monster_sound()
@@ -494,9 +495,9 @@ class Monster3(Monster1):
 
 #	{{{ __init__
 
-	def __init__(self):
+	def __init__(self,neo=False):
 		log = Monster_Logger2('monster3')
-		Stage.__init__(self,True,True)
+		Stage.__init__(self,True,neo=neo)
 		self.start('Teil 3')
 
 		log.add_new_log('cookies')
