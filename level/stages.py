@@ -408,16 +408,16 @@ class Monster1(Stage):
 		log = Monster_Logger2('monster1')
 		Stage.__init__(self,True)
 		self.start('Teil 1')
-#		self.play_instruction('audio/intro_begin.ogg')
+		self.play_instruction('audio/intro_begin.ogg')
 		monster = {'"pic_M1.bmp"':'images/monster1.jpg','"pic_M2.bmp"':'images/monster2.jpg'}
 		
 		sound_dic = self.load_monster_sound()
 
-#		self.teach_monster(monster['"pic_M1.bmp"'],self.load_sound(os.path.join(self.path,'audio/intro_pic_M1.ogg')))
-#		self.teach_monster(monster['"pic_M2.bmp"'],self.load_sound(os.path.join(self.path,'audio/intro_pic_M2.ogg')))
-#		self.play_instruction('audio/instr1.ogg')
+		self.teach_monster(monster['"pic_M1.bmp"'],self.load_sound(os.path.join(self.path,'audio/intro_pic_M1.ogg')))
+		self.teach_monster(monster['"pic_M2.bmp"'],self.load_sound(os.path.join(self.path,'audio/intro_pic_M2.ogg')))
+		self.play_instruction('audio/instr1.ogg')
 
-#		self.play_instruction('audio/intro_train.ogg')
+		self.play_instruction('audio/intro_train.ogg')
 
 		log.add_new_log('learn')
 		self.test_monster(monster,sound_dic,Trial_Data('level/data/mon1/learn.dat'),log,True,10)
@@ -583,3 +583,10 @@ class Monster3(Monster1):
 #	}}}
 
 #	}}}
+
+#	{{{ Morse 1
+
+class Morse1(Stage):
+
+	def __init__(self):
+		pass
