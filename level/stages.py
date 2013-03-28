@@ -509,7 +509,7 @@ class Monster2(Monster1):
 		self.play_instruction('audio/quit.ogg')
 #	}}}
 
-#	{{{ Monster 3
+#	{{{ Monster3
 
 class Monster3(Monster1):
 
@@ -662,9 +662,61 @@ class Morse1(Stage):
 
 #	{{{ __init__
 	def __init__(self):
-		pass
+		Stage.__init__(self,True)
+		self.start('Teil 4')
+
+		self.surface.fill(self.bg_blank)
+		pygame.display.update()
+
+		self.play_instruction('audio/morse1/Instr1.ogg')
+		self.play_instruction('audio/morse1/Instr2.ogg')
+
+		self.draw_stuff('images/morse/dot.tif')
+		self.play_instruction('audio/morse1/ta.ogg',False)
+		pygame.time.wait(500)
+
+		self.surface.fill(self.bg_blank)
+		pygame.display.update()
+		pygame.time.wait(500)
+
+		self.draw_stuff('images/morse/dash.tif')
+		self.play_instruction('audio/morse1/maa.ogg',False)
+		pygame.time.wait(500)
+
+		self.surface.fill(self.bg_blank)
+		pygame.display.update()
+		pygame.time.wait(500)
+		self.play_instruction('audio/morse1/Instr3.ogg')
+
+		self.stuff(Trial_Data('level/data/mor1/learn1.dat'))
+
+		self.play_instruction('audio/morse1/Instr4.ogg')
+		self.stuff(Trial_Data('level/data/mor1/learn2.dat'))
+		self.play_instruction('audio/morse1/intro_test.ogg')
+		self.stuff(Trial_Data('level/data/mor1/test.dat'))
+		self.play_instruction('audio/morse1/quit.ogg')
 #	}}}
 
+	def draw_stuff(self,path):
+		image = pygame.image.load(os.path.join(self.path,path))
+		self.surface.fill(self.bg_blank)
+		self.surface.blit(image,(self.position_center_width(image),self.position_center_height(image)))
+		pygame.display.update()
+
+	def stuff(self,trialdata):
+		print(trialdata)
+
+		for i in range(trialdata.get_n_trials()):
+			trial = trialdata.get_trial()
+			self.draw_stuff(os.path.join('images/morse/',trial[1][1:-1]))
+
+			stop = False
+			while not stop:
+				for event in pygame.event.get():
+					self.standart_event(event)
+					if event.type == KEYDOWN:
+						if event.key == K_RETURN:
+							stop = True
 #	}}}
 
 #	{{{ Morse 2
