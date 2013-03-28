@@ -431,10 +431,10 @@ class Monster1(Stage):
 		
 		if green:
 			arrow = pygame.image.load(os.path.join(self.path,'images/arrow_g.png'))
-			self.draw(arrow,(970,350))
+			self.draw(arrow,(970,320))
 		else:
 			arrow = pygame.image.load(os.path.join(self.path,'images/arrow_r.png'))
-			self.draw(arrow,(850,350))
+			self.draw(arrow,(870,320))
 		pygame.time.wait(2000)
 
 
