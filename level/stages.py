@@ -675,25 +675,25 @@ class Morse1(Stage):
 		self.surface.fill(self.bg_blank)
 		pygame.display.update()
 
-#		self.play_instruction('audio/morse1/Instr1.ogg')
-#		self.play_instruction('audio/morse1/Instr2.ogg')
-#
-#		self.draw_stuff('images/morse/dot.tif')
-#		self.play_instruction('audio/morse1/ta.ogg',False)
-#		pygame.time.wait(500)
-#
-#		self.surface.fill(self.bg_blank)
-#		pygame.display.update()
-#		pygame.time.wait(500)
-#
-#		self.draw_stuff('images/morse/dash.tif')
-#		self.play_instruction('audio/morse1/maa.ogg',False)
-#		pygame.time.wait(500)
-#
-#		self.surface.fill(self.bg_blank)
-#		pygame.display.update()
-#		pygame.time.wait(500)
-#		self.play_instruction('audio/morse1/Instr3.ogg')
+		self.play_instruction('audio/morse1/Instr1.ogg')
+		self.play_instruction('audio/morse1/Instr2.ogg')
+
+		self.draw_stuff('images/morse/dot.tif')
+		self.play_instruction('audio/morse1/ta.ogg',False)
+		pygame.time.wait(500)
+
+		self.surface.fill(self.bg_blank)
+		pygame.display.update()
+		pygame.time.wait(500)
+
+		self.draw_stuff('images/morse/dash.tif')
+		self.play_instruction('audio/morse1/maa.ogg',False)
+		pygame.time.wait(500)
+
+		self.surface.fill(self.bg_blank)
+		pygame.display.update()
+		pygame.time.wait(500)
+		self.play_instruction('audio/morse1/Instr3.ogg')
 
 		self.log.add_new_log('learn1')
 		self.stuff(Trial_Data('level/data/mor1/learn1.dat'))
@@ -703,7 +703,7 @@ class Morse1(Stage):
 		self.stuff(Trial_Data('level/data/mor1/learn2.dat'))
 		self.play_instruction('audio/morse1/intro_test.ogg')
 		self.log.add_new_log('test')
-		self.stuff(Trial_Data('level/data/mor1/test.dat'))
+		self.stuff(Trial_Data('level/data/mor1/test.dat'),True)
 		self.play_instruction('audio/morse1/quit.ogg')
 #	}}}
 
@@ -713,7 +713,7 @@ class Morse1(Stage):
 		self.surface.blit(image,(self.position_center_width(image),self.position_center_height(image)))
 		pygame.display.update()
 
-	def stuff(self,trialdata):
+	def stuff(self,trialdata,test=False):
 
 		self.log.set_top('trail\timage\tcorrect')
 		for i in range(trialdata.get_n_trials()):
@@ -735,7 +735,10 @@ class Morse1(Stage):
 							self.log.add([trial[0],image,int(False)])
 							self.blank()
 							pygame.time.wait(500)
-							self.draw_stuff(os.path.join('images/morse',image))
+							if not test:
+								self.draw_stuff(os.path.join('images/morse',image))
+							else:
+								stop = True
 #	}}}
 
 #	{{{ Morse 2
@@ -789,21 +792,21 @@ class Morse2(Stage):
 
 		self.log.add_new_log('test')
 		self.log.set_top('trail\tcorrect')
-		self.morse('t01')
-		self.morse('t02')
-		self.morse('t03')
-		self.morse('t04')
-		self.morse('t05')
-		self.morse('t06')
-		self.morse('t07')
-		self.morse('t08')
-		self.morse('t09')
-		self.morse('t10')
-		self.morse('t11')
-		self.morse('t12')
+		self.morse('t01',True)
+		self.morse('t02',True)
+		self.morse('t03',True)
+		self.morse('t04',True)
+		self.morse('t05',True)
+		self.morse('t06',True)
+		self.morse('t07',True)
+		self.morse('t08',True)
+		self.morse('t09',True)
+		self.morse('t10',True)
+		self.morse('t11',True)
+		self.morse('t12',True)
 #	}}}
 
-	def morse(self,trail):
+	def morse(self,trail,test=False):
 		goon = True
 		self.play_instruction('audio/morse2/'+trail+'.ogg')
 		while goon:
@@ -811,7 +814,10 @@ class Morse2(Stage):
 				self.standart_event(event)
 				if event.type == KEYDOWN:
 					if event.key == K_SPACE:
-						self.play_instruction('audio/morse2/'+trail+'.ogg')
+						if not test:
+							self.play_instruction('audio/morse2/'+trail+'.ogg')
+						else:
+							goon = False
 						self.log.add([trail,str(False)])
 					elif event.key == K_RETURN:
 						goon = False
