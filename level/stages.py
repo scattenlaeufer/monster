@@ -685,58 +685,61 @@ class Morse2(Stage):
 		self.play_instruction('audio/intro_train.ogg')
 
 #		self.log.add_new_log('training1')
-#		self.set_top('trail\tcorrect')
-#		self.ta()
-#		self.ma()
-#		self.ma()
-#		self.ta()
-#		self.ta()
-#		self.ma()
-#		self.ta()
-#		self.ta()
-#		self.ta()
-#		self.ma()
-
-		self.play_instruction('audio/morse2/01.ogg')
-		self.play_instruction('audio/morse2/02.ogg')
+#		self.log.set_top('trail\tcorrect')
+		self.morse('ta')
+		self.morse('ma')
+		self.morse('ma')
+		self.morse('ta')
+		self.morse('ta')
+		self.morse('ma')
+		self.morse('ta')
+		self.morse('ta')
+		self.morse('ta')
+		self.morse('ma')
 
 		self.play_instruction('audio/morse2/instr2.ogg')
 
-		self.play_instruction('audio/morse2/03.ogg')
-		self.play_instruction('audio/morse2/04.ogg')
-		self.play_instruction('audio/morse2/05.ogg')
-		self.play_instruction('audio/morse2/06.ogg')
+		self.morse('u201')
+		self.morse('u202')
+		self.morse('u203')
+		self.morse('u204')
+		self.morse('u205')
+		self.morse('u206')
+		self.morse('u207')
+		self.morse('u208')
+		self.morse('u209')
+		self.morse('u210')
+		self.morse('u211')
+		self.morse('u212')
 
 		self.play_instruction('audio/morse2/instr3.ogg')
 
-		self.play_instruction('audio/morse2/07.ogg')
-		self.play_instruction('audio/morse2/08.ogg')
-		self.play_instruction('audio/morse2/09.ogg')
-
-		self.play_instruction('audio/morse2/10.ogg')
-		self.play_instruction('audio/morse2/11.ogg')
-		self.play_instruction('audio/morse2/12.ogg')
+		self.morse('t01')
+		self.morse('t02')
+		self.morse('t03')
+		self.morse('t04')
+		self.morse('t05')
+		self.morse('t06')
+		self.morse('t07')
+		self.morse('t08')
+		self.morse('t09')
+		self.morse('t10')
+		self.morse('t11')
+		self.morse('t12')
 #	}}}
 
-	def uebung1(self,trail):
+	def morse(self,trail):
 		goon = True
+		self.play_instruction('audio/morse2/'+trail+'.ogg')
 		while goon:
 			for event in pygame.event.get():
 				self.standart_event(event)
-				if event.type == MOUSEBUTTONDOWN:
-					if event.button == 1:
+				if event.type == KEYDOWN:
+					if event.key == K_SPACE:
+						self.play_instruction('audio/morse2/'+trail+'.ogg')
+#						self.log.add([trail,str(False)])
+					elif event.key == K_RETURN:
 						goon = False
-						self.log.add([trail,str(False)])
-					elif event.button == 3:
-						goon = False
-						self.log.add([trail,str(True)])
-
-	def ma(self):
-		self.play_instruction('audio/morse2/maa.ogg')
-		self.uebung1('maa')
-
-	def ta(self):
-		self.play_instruction('audio/morse2/ta.ogg')
-		self.uebung1('ta')
+#						self.log.add([trail,str(True)])
 
 #	}}}
