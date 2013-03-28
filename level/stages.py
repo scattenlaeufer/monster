@@ -214,13 +214,13 @@ class Stage:
 #	{{{ draw_left
 	def draw_left(self,image):
 
-		self.surface.blit(image,(self.windowwidth/12,self.position_center_height(image)))
+		self.surface.blit(image,((self.windowwidth/2-image.get_width())/2,self.position_center_height(image)))
 #	}}}
 
 #	{{{ draw_right
 	def draw_right(self,image):
 
-		self.surface.blit(image,(self.windowwidth*7/12,self.position_center_height(image)))
+		self.surface.blit(image,(self.windowwidth/2 + (self.windowwidth/2-image.get_width())/2,self.position_center_height(image)))
 #	}}}
 
 #	{{{ standart_event
@@ -352,7 +352,7 @@ class Stage:
 						if correct == 1:
 							dic[sound]['neg'][random.randint(0,2)].play()
 						else:
-							dic[int(bin(sound)[-1:])]['neg'][random.randint(0,2)].paly()
+							dic[int(bin(sound+1)[-1:])]['neg'][random.randint(0,2)].play()
 						correct_resp -= 1
 						pygame.time.wait(4500)
 						dic[sound]['bla'][random.randint(0,4)].play()
@@ -375,30 +375,6 @@ class Stage:
 		return miss
 #	}}}
 
-#	{{{ feedback
-	def feedback(self,miss,x,outstanding=True):
-		
-		pygame.time.wait(1000)
-		if miss == 0 and outstanding:
-			self.draw(pygame.image.load(os.path.join(self.path,'images/feedback/feedback3.gif')))
-			self.play_instruction('audio/feedback/feedback3.ogg',False)
-		elif miss <= x:
-			self.draw(pygame.image.load(os.path.join(self.path,'images/feedback/feedback2.gif')))
-			self.play_instruction('audio/feedback/feedback2.ogg',False)
-		else:
-			self.draw(pygame.image.load(os.path.join(self.path,'images/feedback/feedback1.gif')))
-			self.play_instruction('audio/feedback/feedback1.ogg',False)
-		pygame.time.wait(1000)
-#	}}}
-
-#	{{{ ask_prob_code
-	def ask_prob_code(self,level):
-		app = QtGui.QApplication(sys.argv)
-		probDialog = ProbCodeDialog()
-		self.prob_code = probDialog.ask()
-		log_tester = Log_Tester(self.prob_code,level)
-#	}}}
-
 #	}}}
 
 #	{{{ Monster1
@@ -415,7 +391,14 @@ class Monster1(Stage):
 
 		self.teach_monster(monster['"pic_M1.bmp"'],self.load_sound(os.path.join(self.path,'audio/intro_pic_M1.ogg')))
 		self.teach_monster(monster['"pic_M2.bmp"'],self.load_sound(os.path.join(self.path,'audio/intro_pic_M2.ogg')))
+		self.teach_monster(monster['"pic_M1.bmp"'],self.load_sound(os.path.join(self.path,'audio/introA_pic_M1.ogg')))
+		self.teach_monster(monster['"pic_M2.bmp"'],self.load_sound(os.path.join(self.path,'audio/introA_pic_M2.ogg')))
 		self.play_instruction('audio/instr1.ogg')
+
+		self.show_monster('images/monster1.jpg',sound_dic[0]['bla'][0],True)
+		self.show_monster('images/monster1.jpg',sound_dic[1]['bla'][0],False)
+		self.show_monster('images/monster2.jpg',sound_dic[1]['bla'][0],True)
+		self.show_monster('images/monster2.jpg',sound_dic[0]['bla'][0],False)
 
 		self.play_instruction('audio/intro_train.ogg')
 
@@ -428,7 +411,33 @@ class Monster1(Stage):
 		self.test_monster(monster,sound_dic,Trial_Data('level/data/mon1/test.dat'),log,False,20)
 
 		self.play_instruction('audio/quit.ogg')
+
+	def show_monster(self,monster,sound,green):
+
+		self.surface.fill(self.bg_blank)
+
+		monster = pygame.image.load(os.path.join(self.path,monster))
+		monster = pygame.transform.scale(monster,(self.transform_width(monster,int(self.windowheight/2)),int(self.windowheight/2)))
+		self.draw_left(monster)
+
+		mouse = pygame.image.load(os.path.join(self.path,'images/Maus.jpg'))
+		mouse = pygame.transform.scale(mouse,(self.transform_width(mouse,int(self.windowheight/2)),int(self.windowheight/2)))
+		self.draw_right(mouse)
+		pygame.display.update()
 		
+		pygame.time.wait(200)
+		sound.play()
+		pygame.time.wait(700)
+		
+		if green:
+			arrow = pygame.image.load(os.path.join(self.path,'images/arrow_g.png'))
+			self.draw(arrow,(970,350))
+		else:
+			arrow = pygame.image.load(os.path.join(self.path,'images/arrow_r.png'))
+			self.draw(arrow,(850,350))
+		pygame.time.wait(2000)
+
+
 	def load_monster_sound(self):
 
 		sound_dic = {}
@@ -479,6 +488,15 @@ class Monster2(Monster1):
 		monster = {'"Φ"':'images/li.png','"Ψ"':'images/ka.png'}
 		self.teach_monster(monster['"Φ"'],self.load_sound(os.path.join(self.path,'audio/intro_sym_M1.ogg')))
 		self.teach_monster(monster['"Ψ"'],self.load_sound(os.path.join(self.path,'audio/intro_sym_M2.ogg')))
+		self.teach_monster(monster['"Φ"'],self.load_sound(os.path.join(self.path,'audio/introA_sym_M1.ogg')))
+		self.teach_monster(monster['"Ψ"'],self.load_sound(os.path.join(self.path,'audio/introA_sym_M2.ogg')))
+
+		self.play_instruction('audio/m2/instr2.ogg')
+		
+		self.show_monster('images/li.png',sound_dic[0]['bla'][0],True)
+		self.show_monster('images/li.png',sound_dic[1]['bla'][0],False)
+		self.show_monster('images/ka.png',sound_dic[1]['bla'][0],True)
+		self.show_monster('images/ka.png',sound_dic[0]['bla'][0],False)
 
 		self.play_instruction('audio/intro_train.ogg')
 		log.add_new_log('learn')
@@ -502,16 +520,71 @@ class Monster3(Monster1):
 		Stage.__init__(self,True)
 		self.start('Teil 3')
 
+		self.surface.fill(self.bg_blank)
+		m1 = pygame.image.load(os.path.join(self.path,'images/ka_r.png'))
+		m1 = pygame.transform.scale(m1,(self.transform_width(m1,int(self.windowheight/2)),int(self.windowheight/2)))
+		self.draw_left(m1)
+
+		m2 = pygame.image.load(os.path.join(self.path,'images/li_g.png'))
+		m2 = pygame.transform.scale(m2,(self.transform_width(m2,int(self.windowheight/2)),int(self.windowheight/2)))
+		self.draw_right(m2)
+		pygame.display.update()
+		
+		self.play_instruction('audio/m3/instr3.ogg',False)
+
+		self.surface.fill(self.bg_blank)
+
 		log.add_new_log('cookies')
 		cookies = {'"cookie_M1.tif"':self.load_sprite('images/li_cookie.png'),'"cookie_M2.tif"':self.load_sprite('images/ka_cookie.png')}
-
 		top = {'r':self.load_sprite('images/li_g.png'),'l':self.load_sprite('images/ka_r.png')}
-		#self.cookie_test(cookies,top,Trial_Data('level/data/mon3/run_1.dat'),log)
+
+		self.load_sound(os.path.join(self.path,'audio/m3/instr4.ogg')).play()
+		self.surface.blit(top['l'],(int((self.windowwidth/2-top['l'].get_width())/2),int(self.windowheight/9)))
+		pygame.display.update()
+		pygame.time.wait(4500)
+		self.surface.fill(self.bg_blank)
+		self.surface.blit(top['r'],(int((self.windowwidth/2-top['r'].get_width())/2 + self.windowwidth/2),int(self.windowheight/9)))
+		pygame.display.update()
+		pygame.time.wait(4500)
+		self.surface.fill(self.bg_blank)
+		pygame.display.update()
+		pygame.time.wait(7000)
+
+		self.cookie_test(cookies,top,Trial_Data('level/data/mon3/run_1.dat'),log)
+
+		self.surface.fill(self.bg_blank)
+		m1 = pygame.image.load(os.path.join(self.path,'images/ka_cookie_r.png'))
+		m1 = pygame.transform.scale(m1,(self.transform_width(m1,int(self.windowheight/2)),int(self.windowheight/2)))
+		self.draw_left(m1)
+
+		m2 = pygame.image.load(os.path.join(self.path,'images/li_cookie_g.png'))
+		m2 = pygame.transform.scale(m2,(self.transform_width(m2,int(self.windowheight/2)),int(self.windowheight/2)))
+		self.draw_right(m2)
+		pygame.display.update()
+		
+		self.play_instruction('audio/m3/instr5.ogg',False)
+
+		self.surface.fill(self.bg_blank)
 
 		log.add_new_log('monster')
 		monster = {'"pic_M1.tif"':self.load_sprite('images/monster1.jpg'),'"pic_M2.tif"':self.load_sprite('images/monster2.jpg')}
 		top = {'r':self.load_sprite('images/li_cookie_g.png'),'l':self.load_sprite('images/ka_cookie_r.png')}
+
+		self.load_sound(os.path.join(self.path,'audio/m3/instr6.ogg')).play()
+		self.surface.blit(top['l'],(int((self.windowwidth/2-top['l'].get_width())/2),int(self.windowheight/9)))
+		pygame.display.update()
+		pygame.time.wait(5000)
+		self.surface.fill(self.bg_blank)
+		self.surface.blit(top['r'],(int((self.windowwidth/2-top['r'].get_width())/2 + self.windowwidth/2),int(self.windowheight/9)))
+		pygame.display.update()
+		pygame.time.wait(5000)
+		self.surface.fill(self.bg_blank)
+		pygame.display.update()
+		pygame.time.wait(9000)
+
 		self.cookie_test(monster,top,Trial_Data('level/data/mon3/run_2.dat'),log)
+
+		self.play_instruction('audio/m3/end.ogg')
 
 #	}}}
 
@@ -585,8 +658,85 @@ class Monster3(Monster1):
 #	}}}
 
 #	{{{ Morse 1
-
 class Morse1(Stage):
 
+#	{{{ __init__
 	def __init__(self):
 		pass
+#	}}}
+
+#	}}}
+
+#	{{{ Morse 2
+class Morse2(Stage):
+
+#	{{{ __init__
+	def __init__(self):
+#		self.log = Monster_Logger2('morse2')
+		Stage.__init__(self,True)
+		self.start('Teil 5')
+
+		self.surface.fill(self.bg_blank)
+		pygame.display.update()
+		self.play_instruction('audio/morse2/instr1.ogg')
+
+		pygame.time.wait(1000)
+
+		self.play_instruction('audio/intro_train.ogg')
+
+#		self.log.add_new_log('training1')
+#		self.set_top('trail\tcorrect')
+#		self.ta()
+#		self.ma()
+#		self.ma()
+#		self.ta()
+#		self.ta()
+#		self.ma()
+#		self.ta()
+#		self.ta()
+#		self.ta()
+#		self.ma()
+
+		self.play_instruction('audio/morse2/01.ogg')
+		self.play_instruction('audio/morse2/02.ogg')
+
+		self.play_instruction('audio/morse2/instr2.ogg')
+
+		self.play_instruction('audio/morse2/03.ogg')
+		self.play_instruction('audio/morse2/04.ogg')
+		self.play_instruction('audio/morse2/05.ogg')
+		self.play_instruction('audio/morse2/06.ogg')
+
+		self.play_instruction('audio/morse2/instr3.ogg')
+
+		self.play_instruction('audio/morse2/07.ogg')
+		self.play_instruction('audio/morse2/08.ogg')
+		self.play_instruction('audio/morse2/09.ogg')
+
+		self.play_instruction('audio/morse2/10.ogg')
+		self.play_instruction('audio/morse2/11.ogg')
+		self.play_instruction('audio/morse2/12.ogg')
+#	}}}
+
+	def uebung1(self,trail):
+		goon = True
+		while goon:
+			for event in pygame.event.get():
+				self.standart_event(event)
+				if event.type == MOUSEBUTTONDOWN:
+					if event.button == 1:
+						goon = False
+						self.log.add([trail,str(False)])
+					elif event.button == 3:
+						goon = False
+						self.log.add([trail,str(True)])
+
+	def ma(self):
+		self.play_instruction('audio/morse2/maa.ogg')
+		self.uebung1('maa')
+
+	def ta(self):
+		self.play_instruction('audio/morse2/ta.ogg')
+		self.uebung1('ta')
+
+#	}}}
