@@ -37,8 +37,8 @@ class Stage:
 		self.curser_unvisible = True
 		self.surface = pygame.display.set_mode((self.windowwidth,self.windowheight),0,32)
 		pygame.display.set_caption('Monster v0.1') 
-#		pygame.display.toggle_fullscreen()
-#		pygame.mouse.set_visible(False)
+		pygame.display.toggle_fullscreen()
+		pygame.mouse.set_visible(False)
 
 #		self.bg_blank = (194,194,194)
 		self.bg_blank = (255,255,255)
