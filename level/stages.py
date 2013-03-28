@@ -375,6 +375,12 @@ class Stage:
 		return miss
 #	}}}
 
+#	{{{ blank
+	def blank(self):
+		self.surface.fill(self.bg_blank)
+		pygame.display.update()
+#	}}}
+
 #	}}}
 
 #	{{{ Monster1
@@ -662,37 +668,41 @@ class Morse1(Stage):
 
 #	{{{ __init__
 	def __init__(self):
+		self.log = Monster_Logger2('morse1')
 		Stage.__init__(self,True)
 		self.start('Teil 4')
 
 		self.surface.fill(self.bg_blank)
 		pygame.display.update()
 
-		self.play_instruction('audio/morse1/Instr1.ogg')
-		self.play_instruction('audio/morse1/Instr2.ogg')
+#		self.play_instruction('audio/morse1/Instr1.ogg')
+#		self.play_instruction('audio/morse1/Instr2.ogg')
+#
+#		self.draw_stuff('images/morse/dot.tif')
+#		self.play_instruction('audio/morse1/ta.ogg',False)
+#		pygame.time.wait(500)
+#
+#		self.surface.fill(self.bg_blank)
+#		pygame.display.update()
+#		pygame.time.wait(500)
+#
+#		self.draw_stuff('images/morse/dash.tif')
+#		self.play_instruction('audio/morse1/maa.ogg',False)
+#		pygame.time.wait(500)
+#
+#		self.surface.fill(self.bg_blank)
+#		pygame.display.update()
+#		pygame.time.wait(500)
+#		self.play_instruction('audio/morse1/Instr3.ogg')
 
-		self.draw_stuff('images/morse/dot.tif')
-		self.play_instruction('audio/morse1/ta.ogg',False)
-		pygame.time.wait(500)
-
-		self.surface.fill(self.bg_blank)
-		pygame.display.update()
-		pygame.time.wait(500)
-
-		self.draw_stuff('images/morse/dash.tif')
-		self.play_instruction('audio/morse1/maa.ogg',False)
-		pygame.time.wait(500)
-
-		self.surface.fill(self.bg_blank)
-		pygame.display.update()
-		pygame.time.wait(500)
-		self.play_instruction('audio/morse1/Instr3.ogg')
-
+		self.log.add_new_log('learn1')
 		self.stuff(Trial_Data('level/data/mor1/learn1.dat'))
 
 		self.play_instruction('audio/morse1/Instr4.ogg')
+		self.log.add_new_log('learn2')
 		self.stuff(Trial_Data('level/data/mor1/learn2.dat'))
 		self.play_instruction('audio/morse1/intro_test.ogg')
+		self.log.add_new_log('test')
 		self.stuff(Trial_Data('level/data/mor1/test.dat'))
 		self.play_instruction('audio/morse1/quit.ogg')
 #	}}}
@@ -704,11 +714,12 @@ class Morse1(Stage):
 		pygame.display.update()
 
 	def stuff(self,trialdata):
-		print(trialdata)
 
+		self.log.set_top('trail\timage\tcorrect')
 		for i in range(trialdata.get_n_trials()):
 			trial = trialdata.get_trial()
-			self.draw_stuff(os.path.join('images/morse/',trial[1][1:-1]))
+			image = trial[1][1:-1]
+			self.draw_stuff(os.path.join('images/morse/',image))
 
 			stop = False
 			while not stop:
@@ -716,7 +727,15 @@ class Morse1(Stage):
 					self.standart_event(event)
 					if event.type == KEYDOWN:
 						if event.key == K_RETURN:
+							self.log.add([trial[0],image,int(True)])
 							stop = True
+							self.blank()
+							pygame.time.wait(500)
+						elif event.key == K_SPACE:
+							self.log.add([trial[0],image,int(False)])
+							self.blank()
+							pygame.time.wait(500)
+							self.draw_stuff(os.path.join('images/morse',image))
 #	}}}
 
 #	{{{ Morse 2
@@ -724,7 +743,7 @@ class Morse2(Stage):
 
 #	{{{ __init__
 	def __init__(self):
-#		self.log = Monster_Logger2('morse2')
+		self.log = Monster_Logger2('morse2')
 		Stage.__init__(self,True)
 		self.start('Teil 5')
 
@@ -736,8 +755,8 @@ class Morse2(Stage):
 
 		self.play_instruction('audio/intro_train.ogg')
 
-#		self.log.add_new_log('training1')
-#		self.log.set_top('trail\tcorrect')
+		self.log.add_new_log('learn1')
+		self.log.set_top('trail\tcorrect')
 		self.morse('ta')
 		self.morse('ma')
 		self.morse('ma')
@@ -751,6 +770,8 @@ class Morse2(Stage):
 
 		self.play_instruction('audio/morse2/instr2.ogg')
 
+		self.log.add_new_log('learn2')
+		self.log.set_top('trail\tcorrect')
 		self.morse('u201')
 		self.morse('u202')
 		self.morse('u203')
@@ -766,6 +787,8 @@ class Morse2(Stage):
 
 		self.play_instruction('audio/morse2/instr3.ogg')
 
+		self.log.add_new_log('test')
+		self.log.set_top('trail\tcorrect')
 		self.morse('t01')
 		self.morse('t02')
 		self.morse('t03')
@@ -789,9 +812,9 @@ class Morse2(Stage):
 				if event.type == KEYDOWN:
 					if event.key == K_SPACE:
 						self.play_instruction('audio/morse2/'+trail+'.ogg')
-#						self.log.add([trail,str(False)])
+						self.log.add([trail,str(False)])
 					elif event.key == K_RETURN:
 						goon = False
-#						self.log.add([trail,str(True)])
+						self.log.add([trail,str(True)])
 
 #	}}}
