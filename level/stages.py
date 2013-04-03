@@ -281,7 +281,7 @@ class Stage:
 #	}}}
 
 #	{{{ test_monster
-	def test_monster(self,monster,dic,data,log,response=True,n=8):
+	def test_monster(self,monster,dic,data,log,response=True,n=8 break_when=False):
 
 		miss = 0
 		correct_resp = 0
@@ -369,8 +369,8 @@ class Stage:
 				self.mainClock.tick(40)
 
 			pygame.time.wait(500)
-#			if correct_resp >= 5:
-#				break
+			if correct_resp >= 10 and break_when:
+				break
 
 		return miss
 #	}}}
@@ -409,12 +409,12 @@ class Monster1(Stage):
 		self.play_instruction('audio/intro_train.ogg')
 
 		log.add_new_log('learn')
-		self.test_monster(monster,sound_dic,Trial_Data('level/data/mon1/learn.dat'),log,True,10)
+#		self.test_monster(monster,sound_dic,Trial_Data('level/data/mon1/learn.dat'),log,True,10)
 
 		self.play_instruction('audio/intro_test.ogg')
 
 		log.add_new_log('test')
-		self.test_monster(monster,sound_dic,Trial_Data('level/data/mon1/test.dat'),log,False,20)
+#		self.test_monster(monster,sound_dic,Trial_Data('level/data/mon1/test.dat'),log,False,20)
 
 		self.play_instruction('audio/quit.ogg')
 
@@ -506,11 +506,11 @@ class Monster2(Monster1):
 
 		self.play_instruction('audio/intro_train.ogg')
 		log.add_new_log('learn')
-		self.test_monster(monster,sound_dic,Trial_Data('level/data/mon2/learn.dat'),log,True,10)
+		self.test_monster(monster,sound_dic,Trial_Data('level/data/mon2/learn.dat'),log,True,10,break_when=True)
 
 		self.play_instruction('audio/intro_test.ogg')
 		log.add_new_log('test')
-		self.test_monster(monster,sound_dic,Trial_Data('level/data/mon2/test.dat'),log,False,20)
+		self.test_monster(monster,sound_dic,Trial_Data('level/data/mon2/test.dat'),log,False,20,break_when=True)
 		
 		self.play_instruction('audio/quit.ogg')
 #	}}}
