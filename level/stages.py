@@ -510,7 +510,7 @@ class Monster2(Monster1):
 
 		self.play_instruction('audio/intro_test.ogg')
 		log.add_new_log('test')
-		self.test_monster(monster,sound_dic,Trial_Data('level/data/mon2/test.dat'),log,False,20,break_when=True)
+		self.test_monster(monster,sound_dic,Trial_Data('level/data/mon2/test.dat'),log,False,20)
 		
 		self.play_instruction('audio/quit.ogg')
 #	}}}
