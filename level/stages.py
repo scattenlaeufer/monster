@@ -3,6 +3,7 @@
 # TODO:
 #	fix negeativ sound response in test_monster(...)
 #	test new logger
+# das ist ein test
 
 #	{{{ import
 import pygame, sys, random, os
