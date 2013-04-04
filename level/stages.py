@@ -3,7 +3,6 @@
 # TODO:
 #	fix negeativ sound response in test_monster(...)
 #	test new logger
-# das ist ein test
 
 #	{{{ import
 import pygame, sys, random, os
@@ -410,7 +409,7 @@ class Monster1(Stage):
 		self.play_instruction('audio/intro_train.ogg')
 
 		log.add_new_log('learn')
-		self.test_monster(monster,sound_dic,Trial_Data('level/data/mon1/learn.dat'),log,True,10)
+		self.test_monster(monster,sound_dic,Trial_Data('level/data/mon1/learn.dat'),log,True,10,break_when=True)
 
 		self.play_instruction('audio/intro_test.ogg')
 
