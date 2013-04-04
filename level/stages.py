@@ -36,7 +36,7 @@ class Stage:
 		self.windowwidth = 1366
 		self.windowheight = 768
 		self.curser_unvisible = True
-		self.surface = pygame.display.set_mode((self.windowwidth,self.windowheight))
+		self.surface = pygame.display.set_mode((self.windowwidth,self.windowheight),pygame.FULLSCREEN,32)
 		pygame.display.set_caption('Monster v0.1') 
 #		pygame.display.toggle_fullscreen()
 		pygame.mouse.set_visible(False)
