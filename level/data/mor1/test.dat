@@ -1,0 +1,13 @@
+testtrialnr	$testpicture	$wav_filename
+1	"dot_dot_dot.tif"	"trial_1.wav"
+2	"dash_dot_dot.tif"	"trial_2.wav"
+3	"dash_dash_dot.tif"	"trial_3.wav"
+4	"dash_dash_dash.tif"	"trial_4.wav"
+5	"dot_dot_dash.tif"	"trial_5.wav"
+6	"dot_dash_dot.tif"	"trial_6.wav"
+7	"dash_dash_dot_dot.tif"	"trial_7.wav"
+8	"dot_dash_dash_dot.tif"	"trial_8.wav"
+9	"dash_dot_dot_dot.tif"	"trial_9.wav"
+10	"dot_dot_dash_dash.tif"	"trial_10.wav"
+11	"dot_dash_dot_dash.tif"	"trial_11.wav"
+12	"dot_dot_dash_dot.tif"	"trial_12.wav"

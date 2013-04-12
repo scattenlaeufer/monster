@@ -822,5 +822,8 @@ class Morse2(Stage):
 					elif event.key == K_RETURN:
 						goon = False
 						self.log.add([trail,str(True)])
+					elif event.key == K_BACKSPACE:
+						self.play_instruction('audio/morse2/'+trail+'.ogg')
+						self.log.add([trail,'repeat'])
 
 #	}}}
