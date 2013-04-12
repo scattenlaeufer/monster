@@ -19,7 +19,7 @@ from helpers import Stop_Watch, Trial_Data
 class Stage:
 
 #	{{{ __init__
-	def __init__(self,bla=True,neo=False):
+	def __init__(self,bla=True,neo=False,title='Monster'):
 
 #		self.ask_prob_code('monster1_learn')
 		
@@ -36,7 +36,7 @@ class Stage:
 		self.windowheight = 768
 		self.curser_unvisible = True
 		self.surface = pygame.display.set_mode((self.windowwidth,self.windowheight),pygame.FULLSCREEN,32)
-		pygame.display.set_caption('Monster v0.1') 
+		pygame.display.set_caption(title+' v0.1') 
 #		pygame.display.toggle_fullscreen()
 		pygame.mouse.set_visible(False)
 
@@ -52,7 +52,7 @@ class Stage:
 			self.left = u'qwertasdfgyxcvbQWERTASDFGYXCVB'
 			self.right = u'zuiopühjklöänmm,.-ZUIOPÜHJKLÖÄNM'
 		if bla:
-			self.text = self.font1.render('Willkommen zum Monsterspiel',True,(0,0,0))
+			self.text = self.font1.render('Willkommen zum '+title+'spiel',True,(0,0,0))
 			self.surface.blit(self.text,(self.position_center_width(self.text),100))
 #	}}}
 
@@ -669,8 +669,8 @@ class Morse1(Stage):
 #	{{{ __init__
 	def __init__(self):
 		self.log = Monster_Logger2('morse1')
-		Stage.__init__(self,True)
-		self.start('Teil 4')
+		Stage.__init__(self,True,title='Morse',)
+		self.start('Teil 1')
 
 		self.surface.fill(self.bg_blank)
 		pygame.display.update()
@@ -747,8 +747,8 @@ class Morse2(Stage):
 #	{{{ __init__
 	def __init__(self):
 		self.log = Monster_Logger2('morse2')
-		Stage.__init__(self,True)
-		self.start('Teil 5')
+		Stage.__init__(self,True,title='Morse')
+		self.start('Teil 2')
 
 		self.surface.fill(self.bg_blank)
 		pygame.display.update()
