@@ -719,6 +719,8 @@ class Morse1(Stage):
 		for i in range(trialdata.get_n_trials()):
 			trial = trialdata.get_trial()
 			image = trial[1][1:-1]
+			self.load_sound(os.path.join(self.path,'audio','beep.ogg')).play()
+			pygame.time.wait(500)
 			self.draw_stuff(os.path.join('images/morse/',image))
 
 			stop = False
@@ -736,6 +738,8 @@ class Morse1(Stage):
 							self.blank()
 							pygame.time.wait(500)
 							if not test:
+								self.load_sound(os.path.join(self.path,'audio','beep.ogg')).play()
+								pygame.time.wait(500)
 								self.draw_stuff(os.path.join('images/morse',image))
 							else:
 								stop = True
