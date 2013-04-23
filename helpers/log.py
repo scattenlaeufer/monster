@@ -38,8 +38,13 @@ class Monster_Logger:
 
 	def add(self,entry):
 		self.log += '\n'
+		log_line = ''
 		for i in entry:
-			self.log += '\t' + str(i)
+			if log_line == '':
+				log_line += str(i)
+			else:
+				log_line += '\t' + str(i)
+		self.log += log_line
 		self.save()
 
 	def set_top(self,top):
