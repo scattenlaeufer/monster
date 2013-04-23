@@ -667,13 +667,18 @@ class Monster3(Monster1):
 class Morse1(Stage):
 
 #	{{{ __init__
-	def __init__(self):
+	def __init__(self,beep=False):
 		self.log = Monster_Logger2('morse1')
 		Stage.__init__(self,True,title='Morse',)
 		self.start('Teil 1')
 
 		self.surface.fill(self.bg_blank)
 		pygame.display.update()
+
+		if beep:
+			self.noise = 'audio/beep.ogg'
+		else:
+			self.noise = 'audio/noise.ogg'
 
 		self.play_instruction('audio/morse1/Instr1.ogg')
 		self.play_instruction('audio/morse1/Instr2.ogg')
@@ -719,7 +724,7 @@ class Morse1(Stage):
 		for i in range(trialdata.get_n_trials()):
 			trial = trialdata.get_trial()
 			image = trial[1][1:-1]
-			self.load_sound(os.path.join(self.path,'audio','beep.ogg')).play()
+			self.play_instruction(self.noise)
 			pygame.time.wait(500)
 			self.draw_stuff(os.path.join('images/morse/',image))
 
@@ -738,7 +743,7 @@ class Morse1(Stage):
 							self.blank()
 							pygame.time.wait(500)
 							if not test:
-								self.load_sound(os.path.join(self.path,'audio','beep.ogg')).play()
+								self.play_instruction(self.noise)
 								pygame.time.wait(500)
 								self.draw_stuff(os.path.join('images/morse',image))
 							else:
