@@ -722,38 +722,44 @@ class Morse1(Stage):
 
 	def stuff(self,trialdata,test=False):
 
+		correct = 0
+
 		self.log.set_top('trail\timage\tcorrect\ttime')
 		for i in range(trialdata.get_n_trials()):
-			trial = trialdata.get_trial()
-			image = trial[1][1:-1]
-#			self.play_instruction(self.noise)
-			pygame.time.wait(500)
-			self.draw_stuff(os.path.join('images/morse/',image))
-			self.stopwatch.stop()
-			time = self.stopwatch.get_time()
-			stop = False
+			if test and correct <= 10:
+				break
+			else:
+				trial = trialdata.get_trial()
+				image = trial[1][1:-1]
+	#			self.play_instruction(self.noise)
+				pygame.time.wait(500)
+				self.draw_stuff(os.path.join('images/morse/',image))
+				self.stopwatch.stop()
+				time = self.stopwatch.get_time()
+				stop = False
 
-			while not stop:
-				for event in pygame.event.get():
-					self.standart_event(event)
-					if event.type == KEYDOWN:
-						if event.key == K_RETURN:
-							self.log.add([trial[0],image,int(True),time])
-							stop = True
-							self.blank()
-							pygame.time.wait(500)
-						elif event.key == K_SPACE:
-							self.log.add([trial[0],image,int(False),time])
-							self.blank()
-							pygame.time.wait(500)
-							if not test:
-#								self.play_instruction(self.noise)
-								pygame.time.wait(500)
-								self.draw_stuff(os.path.join('images/morse',image))
-								self.stopwatch.stop()
-								time = self.stopwatch.get_time()
-							else:
+				while not stop:
+					for event in pygame.event.get():
+						self.standart_event(event)
+						if event.type == KEYDOWN:
+							if event.key == K_RETURN:
+								correct += 1
+								self.log.add([trial[0],image,int(True),time])
 								stop = True
+								self.blank()
+								pygame.time.wait(500)
+							elif event.key == K_SPACE:
+								self.log.add([trial[0],image,int(False),time])
+								self.blank()
+								pygame.time.wait(500)
+								if not test:
+	#								self.play_instruction(self.noise)
+									pygame.time.wait(500)
+									self.draw_stuff(os.path.join('images/morse',image))
+									self.stopwatch.stop()
+									time = self.stopwatch.get_time()
+								else:
+									stop = True
 #	}}}
 
 #	{{{ Morse 2
