@@ -724,7 +724,7 @@ class Morse1(Stage):
 
 		correct = 0
 
-		self.log.set_top('trail\timage\tcorrect\ttime')
+		self.log.set_top('trial\timage\tcorrect\ttime')
 		for i in range(trialdata.get_n_trials()):
 			if not test and correct >= 10:
 				break

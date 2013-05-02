@@ -40,10 +40,10 @@ class Monster_Logger:
 		self.log += '\n'
 		log_line = ''
 		for i in entry:
-			if log_line == '':
-				log_line += str(i)
-			else:
-				log_line += '\t' + str(i)
+#			if log_line == '':
+#				log_line += str(i)
+#			else:
+			log_line += str(i) + '\t'
 		self.log += log_line
 		self.save()
 
