@@ -10,7 +10,7 @@ class ProbCodeDialog(QtGui.QWidget):
 		text, ok = QtGui.QInputDialog.getText(self, 'Probandencode', 'Probandencode:')
 
 		if ok:
-			if text == '':
+			if str(text) == '':
 				return 'test'
 			else:
 				return str(text)

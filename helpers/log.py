@@ -62,8 +62,8 @@ class Monster_Logger2(Monster_Logger):
 		app = QtGui.QApplication(sys.argv)
 		probDialog = ProbCodeDialog()
 		prob_code = str(probDialog.ask())
-		if prob_code != '':
-			prob_code = 'test'
+#		if prob_code != '':
+#			prob_code = 'test'
 		prob_dir = os.path.join(main_dir,prob_code)
 		if not os.path.isdir(prob_dir):
 			os.mkdir(prob_dir)
