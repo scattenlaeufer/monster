@@ -2,7 +2,7 @@
 
 # TODO:
 #	fix negeativ sound response in test_monster(...)
-#	test new logger
+#	test new logger => at least partialy done
 
 #	{{{ import
 import pygame, sys, random, os
@@ -285,6 +285,7 @@ class Stage:
 
 		miss = 0
 		correct_resp = 0
+		counter = 0
 		sw = Stop_Watch()
 		log.set_top('trial_nr\tkey_pressed\tresponse\tresponse_time')
 		side = []
@@ -336,6 +337,7 @@ class Stage:
 						else:
 							dic[int(bin(sound+1)[-1])]['pos'][random.randint(0,2)].play()
 						correct_resp += 1
+						counter += 1
 						pygame.time.wait(3700)
 					else:
 						pygame.time.wait(250)
@@ -348,6 +350,7 @@ class Stage:
 				if press != correct and key_pressed:
 					log.add([i+1,press,int(press==correct),sw.get_time()])
 					miss += 1
+					counter += 1
 					if response:
 						if correct == 1:
 							dic[sound]['neg'][random.randint(0,2)].play()
@@ -368,9 +371,11 @@ class Stage:
 				
 				self.mainClock.tick(40)
 
+			print('counter: '+str(counter)+' | correct: '+str(correct_resp))
 			pygame.time.wait(500)
-			if correct_resp >= 10 and break_when:
+			if (correct_resp >= 10 or counter >= 30) and break_when:
 				break
+
 
 		return miss
 #	}}}
@@ -383,9 +388,10 @@ class Stage:
 
 #	}}}
 
-#	{{{ Monster1
+#	{{{ class Monster1
 class Monster1(Stage):
 
+#	{{{ __init__
 	def __init__(self):
 		log = Monster_Logger2('monster1')
 		Stage.__init__(self,True)
@@ -417,7 +423,9 @@ class Monster1(Stage):
 		self.test_monster(monster,sound_dic,Trial_Data('level/data/mon1/test.dat'),log,False,20)
 
 		self.play_instruction('audio/quit.ogg')
+#	}}}
 
+#	{{{ show_monster
 	def show_monster(self,monster,sound,green):
 
 		self.surface.fill(self.bg_blank)
@@ -442,8 +450,9 @@ class Monster1(Stage):
 			arrow = pygame.image.load(os.path.join(self.path,'images/arrow_r.png'))
 			self.draw(arrow,(870,320))
 		pygame.time.wait(2000)
+#	}}}
 
-
+#	{{{ load_monster_sound
 	def load_monster_sound(self):
 
 		sound_dic = {}
@@ -481,9 +490,12 @@ class Monster1(Stage):
 		return sound_dic
 #	}}}
 
-#	{{{ Monster2
+#	}}}
+
+#	{{{ class Monster2
 class Monster2(Monster1):
 
+#	{{{ __init__
 	def __init__(self):
 		log = Monster_Logger2('monster2')
 		Stage.__init__(self,True)
@@ -494,6 +506,10 @@ class Monster2(Monster1):
 		monster = {'"Φ"':'images/li.png','"Ψ"':'images/ka.png'}
 		self.teach_monster(monster['"Φ"'],self.load_sound(os.path.join(self.path,'audio/intro_sym_M1.ogg')))
 		self.teach_monster(monster['"Ψ"'],self.load_sound(os.path.join(self.path,'audio/intro_sym_M2.ogg')))
+
+		self.blank()
+		pygame.time.wait(2000)
+
 		self.teach_monster(monster['"Φ"'],self.load_sound(os.path.join(self.path,'audio/introA_sym_M1.ogg')))
 		self.teach_monster(monster['"Ψ"'],self.load_sound(os.path.join(self.path,'audio/introA_sym_M2.ogg')))
 
@@ -515,8 +531,9 @@ class Monster2(Monster1):
 		self.play_instruction('audio/quit.ogg')
 #	}}}
 
-#	{{{ Monster3
+#	}}}
 
+#	{{{ class Monster3
 class Monster3(Monster1):
 
 #	{{{ __init__
@@ -595,7 +612,6 @@ class Monster3(Monster1):
 #	}}}
 
 #	{{{ load_sprite
-
 	def load_sprite(self,path):
 
 		image = pygame.image.load(os.path.join(self.path,path))
@@ -663,7 +679,7 @@ class Monster3(Monster1):
 
 #	}}}
 
-#	{{{ Morse 1
+#	{{{ class Morse 1
 class Morse1(Stage):
 
 #	{{{ __init__
@@ -714,6 +730,7 @@ class Morse1(Stage):
 		self.play_instruction('audio/morse1/quit.ogg')
 #	}}}
 
+#	{{{ draw_stuff
 	def draw_stuff(self,path):
 		image = pygame.image.load(os.path.join(self.path,path))
 		self.surface.fill(self.bg_blank)
@@ -762,7 +779,9 @@ class Morse1(Stage):
 									stop = True
 #	}}}
 
-#	{{{ Morse 2
+#	}}}
+
+#	{{{ class Morse 2
 class Morse2(Stage):
 
 #	{{{ __init__
@@ -825,8 +844,11 @@ class Morse2(Stage):
 		self.morse('t10',True)
 		self.morse('t11',True)
 		self.morse('t12',True)
+
+		self.play_instruction('audio/morse1/quit.ogg')
 #	}}}
 
+#	{{{ morse
 	def morse(self,trail,test=False):
 		goon = True
 		self.play_instruction('audio/morse2/'+trail+'.ogg')
@@ -846,5 +868,6 @@ class Morse2(Stage):
 					elif event.key == K_BACKSPACE:
 						self.play_instruction('audio/morse2/'+trail+'.ogg')
 						self.log.add([trail,'repeat'])
+#	}}}
 
 #	}}}
