@@ -312,6 +312,7 @@ class Stage:
 
 			key_pressed = False
 			press = 0
+			pygame.event.clear()
 
 			while True:
 				for event in pygame.event.get():
@@ -753,6 +754,7 @@ class Monster3(Monster1):
 
 			key_pressed = False
 			press = -1
+			pygame.event.clear()
 
 			while(True):
 				for event in pygame.event.get():
@@ -775,10 +777,11 @@ class Monster3(Monster1):
 					log.add([i,press,press==correct,sw.get_time()])
 					self.surface.fill(self.bg_blank)
 					pygame.display.update()
-					pygame.time.wait(500)
 					break
 
 				self.mainClock.tick(40)
+
+			pygame.time.wait(500)
 
 #	}}}
 
