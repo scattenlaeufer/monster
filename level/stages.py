@@ -594,9 +594,9 @@ class Monster2(Monster1):
 		self.draw_mouse_instruction(monster['"Φ"'],monster['"Ψ"'],None,False)
 		pygame.time.wait(7000)
 		self.redraw_mouse('images/maus_g.jpg')
-		pygame.time.wait(8000)
+		pygame.time.wait(12000)
 		self.redraw_mouse('images/maus_r.jpg')
-		pygame.time.wait(8000)
+		pygame.time.wait(4000)
 		self.blank()
 		pygame.time.wait(3000)
 		
