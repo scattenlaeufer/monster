@@ -649,8 +649,10 @@ class Monster3(Monster1):
 
 
 		self.load_sound(os.path.join(self.path,'audio/m3/instr4.ogg')).play()
+		self.draw_mouse_instruction('images/ka_r.png','images/li_g.png',None,highlight=None)
+		pygame.time.wait(2000)
 		self.draw_mouse_instruction('images/ka_r.png','images/li_g.png',None,highlight='l')
-		pygame.time.wait(4500)
+		pygame.time.wait(2500)
 		self.surface.fill(self.bg_blank)
 		self.draw_mouse_instruction('images/ka_r.png','images/li_g.png',None,highlight='r')
 		pygame.time.wait(5000)
