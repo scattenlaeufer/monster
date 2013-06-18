@@ -13,25 +13,37 @@ preset = preset_dia.ask()
 
 prob_file = os.path.join('helpers','trial_log',prob_code,'morse1','test')
 
+with open(os.path.join('helpers','trial_log',prob_code,'morse1','in'),'r') as file:
+	_input = file.read()
+
+y = []
+_input_line = _input.split('\n')
+for i in _input_line:
+	if i != '':
+		y_str = i.split('.')
+		y_a = y_str[1].split(',')
+		y.append(int(y_str[0])*60 + int(y_a[0]) + float(y_a[1]) /(10*len(y_a[1])))
+
 with open(prob_file,'r') as file:
 	data = file.read()
 
 data_lines = data.split('\n')
 
-output = data_lines[0] + '\n'
+output = data_lines[0] + '_m\ttime_r\ttime_response\n'
+
+n = 0
 
 for line in data_lines:
 	line_data = line.split('\t')
 	if not (line_data[0] == '' or line_data[0] == 'trial'):
 		x = float(line_data[3]) + preset
-		y_str = line_data[4].split('.')
-		y_a = y_str[1].split(',')
-		y = int(y_str[0])*60 + int(y_a[0]) + float(y_a[1]) /(10*len(y_a[1]))
-		line_data.append(str(y - x))
+		line_data.append(y[n])
+		line_data.append(str(y[n] - x))
 		line_out = ''
 		for i in line_data:
 			line_out += str(i) + '\t'
 		output += line_out + '\n'
+		n += 1
 
 
 with open(prob_file+'_resptime','w') as file:
