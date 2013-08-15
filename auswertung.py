@@ -36,15 +36,25 @@ n = 0
 for line in data_lines:
 	line_data = line.split('\t')
 	if not (line_data[0] == '' or line_data[0] == 'trial'):
+		if line_data[-1] == '' or line_data[-1] == '\r':
+			line_data = line_data[:-1]
+#		print(line_data)
 		x = float(line_data[3]) + preset
+#		print(str(y[n]) + '\t' + str(x) + '\t' + str(float(line_data[3])) + '\t' + str(preset))
 		line_data.append(y[n])
+#		print(y[n])
 		line_data.append(str(y[n] - x))
 		line_out = ''
+#		print('\n')
 		for i in line_data:
 			line_out += str(i) + '\t'
+#			print(i)
+#		print('\n')
+#		print(line_out + '\n')
 		output += line_out + '\n'
 		n += 1
 
+print(output)
 
 with open(prob_file+'_resptime','w') as file:
 	file.write(output)

@@ -31,7 +31,12 @@ class PreSetDialog(QtGui.QWidget):
 			else:
 				s = str(text).split('.')
 				s1 = s[1].split(',')
-				return int(s[0])*60 + int(s1[0]) + float(s1[1])/(10*len(s1[1]))
+				sa = int(s[0])*60
+				sb = int(s1[0])
+				sc = float(s1[1])/(10**len(s1[1]))
+				s2 = sa + sb + sc
+				#print(str(text) + '\t' + str(sa) + '\t' + str(sb) + '\t' + str(sc) + '\t' + str(s2))
+				return s2
 		else:
 			exit()
 
