@@ -22,7 +22,7 @@ for i in _input_line:
 	if i != '':
 		y_str = i.split('.')
 		y_a = y_str[1].split(',')
-		y.append(int(y_str[0])*60 + int(y_a[0]) + float(y_a[1]) /(10*len(y_a[1])))
+		y.append(int(y_str[0])*60 + int(y_a[0]) + float(y_a[1]) /(10**len(y_a[1])))
 
 with open(prob_file,'r') as file:
 	data = file.read()
@@ -40,7 +40,7 @@ for line in data_lines:
 			line_data = line_data[:-1]
 #		print(line_data)
 		x = float(line_data[3]) + preset
-#		print(str(y[n]) + '\t' + str(x) + '\t' + str(float(line_data[3])) + '\t' + str(preset))
+		print(str(y[n]) + '\t' + str(x) + '\t' + str(float(line_data[3])) + '\t' + str(preset))
 		line_data.append(y[n])
 #		print(y[n])
 		line_data.append(str(y[n] - x))
