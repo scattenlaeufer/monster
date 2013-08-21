@@ -20,6 +20,8 @@ y = []
 _input_line = _input.split('\n')
 for i in _input_line:
 	if i != '':
+		if '\r' in i:
+			i = i[:-1]
 		y_str = i.split('.')
 		y_a = y_str[1].split(',')
 		y.append(int(y_str[0])*60 + int(y_a[0]) + float(y_a[1]) /(10**len(y_a[1])))
