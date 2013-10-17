@@ -883,7 +883,7 @@ class Morse1(Stage):
 				image = trial[1][1:-1]
 	#			self.play_instruction(self.noise)
 				pygame.time.wait(500)
-				self.play_instruction('audio/beep.ogg')
+				#self.play_instruction('audio/beep.ogg')
 				self.draw_stuff(os.path.join('images/morse/',image))
 				self.stopwatch.stop()
 				time = self.stopwatch.get_time()
