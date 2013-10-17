@@ -738,7 +738,7 @@ class Monster3(Monster1):
 		miss = 0
 		correct_resp = 0
 		sw = Stop_Watch()
-		log.set_top('trial_nr\tkey_pressed\tcorrect\tresponse_time')
+		log.set_top('trial_nr\tkey_pressed\tresponse\tresponse_time')
 
 		for i in range(data.get_n_trials()):
 
@@ -776,7 +776,7 @@ class Monster3(Monster1):
 							print(event.key)
 
 				if key_pressed:
-					log.add([i,press,press==correct,sw.get_time()])
+					log.add([i,press,int(press==correct),sw.get_time()])
 					self.surface.fill(self.bg_blank)
 					pygame.display.update()
 					break
@@ -883,6 +883,7 @@ class Morse1(Stage):
 				image = trial[1][1:-1]
 	#			self.play_instruction(self.noise)
 				pygame.time.wait(500)
+				self.play_instruction('audio/beep.ogg')
 				self.draw_stuff(os.path.join('images/morse/',image))
 				self.stopwatch.stop()
 				time = self.stopwatch.get_time()
