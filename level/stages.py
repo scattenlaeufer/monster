@@ -13,12 +13,10 @@ from helpers.dialog import ProbCodeDialog
 from helpers import Stop_Watch, Trial_Data
 #	}}}
 
-#	{{{ class Stage
-#generic form of a stage. all actual stages should inherit from this
 
 class Stage:
+	#generic form of a stage. all actual stages should inherit from this
 
-#	{{{ __init__
 	def __init__(self,bla=True,neo=False,title='Monster'):
 
 #		self.ask_prob_code('monster1_learn')
@@ -37,10 +35,9 @@ class Stage:
 		self.curser_unvisible = True
 		self.surface = pygame.display.set_mode((self.windowwidth,self.windowheight),pygame.FULLSCREEN,32)
 		pygame.display.set_caption(title+' v0.1') 
-#		pygame.display.toggle_fullscreen()
+		#pygame.display.toggle_fullscreen()
 		pygame.mouse.set_visible(False)
-
-#		self.bg_blank = (194,194,194)
+		#self.bg_blank = (194,194,194)
 		self.bg_blank = (255,255,255)
 		self.surface.fill(self.bg_blank)
 		self.font1 = pygame.font.Font(None,70)
@@ -54,31 +51,25 @@ class Stage:
 		if bla:
 			self.text = self.font1.render('Willkommen zum '+title+'spiel',True,(0,0,0))
 			self.surface.blit(self.text,(self.position_center_width(self.text),100))
-#	}}}
 
-#	{{{ get_path
 	def get_path(self,path):
 		return os.path.join(self.path,path)
-#	}}}
 
-#	{{{ toggle_fullscreen
 	def toggle_fullscreen(self):
 		
-		pygame.display.toggle_fullscreen()
-		self.curser_unvisible = pygame.mouse.set_visible(self.curser_unvisible)
-		
-#		if self.curser_unvisible:
-#			self.windowwidth = self.desktopwidth
-#			self.windowheight = self.desktopheight
-#		else:
-#			self.windowwidth = 1024
-#			self.windowheight = 768
+	#	pygame.display.toggle_fullscreen()
+	#	self.curser_unvisible = pygame.mouse.set_visible(self.curser_unvisible)
+	#	
+	#	#if self.curser_unvisible:
+	#	#	self.windowwidth = self.desktopwidth
+	#	#	self.windowheight = self.desktopheight
+	 	#else:
+	#	#	self.windowwidth = 1024
+	#	#	self.windowheight = 768
 
-#		self.surface = pygame.transform.scale(self.surface,(self.windowwidth,self.windowheight))
-#		pygame.display.update()
-#	}}}
+		#self.surface = pygame.transform.scale(self.surface,(self.windowwidth,self.windowheight))
+		#pygame.display.update()
 
-#	{{{ start
 	def start(self,modul):
 	
 		text = self.font1.render(modul,True,(0,0,0))
@@ -99,9 +90,7 @@ class Stage:
 						bla = False
 
 			self.mainClock.tick(20)
-#	}}}
 
-#	{{{ stop
 	def stop(self):
 		
 		self.surface.fill(self.bg_blank)
@@ -120,9 +109,7 @@ class Stage:
 
 		pygame.quit()
 		sys.exit()
-#	}}}
 
-#	{{{ end
 	def end(self):
 		
 		image = pygame.image.load(os.path.join(self.path,'images/bg/bg_wave.jpg'))
@@ -131,9 +118,7 @@ class Stage:
 		self.play_instruction('audio/final/final1.ogg',False)
 		pygame.quit()
 		sys.exit()
-#	}}}
 
-#	{{{ load_sound
 	def load_sound(self,name):
 		
 		class NoneSound:
@@ -146,9 +131,7 @@ class Stage:
 			print 'Cannot load sound:', ogg 
 			raise SystemExit, message
 		return sound
-#	}}}
 
-#	{{{ load_syllable_sound
 	def load_syllable_sound(self,syllable):
 
 		dic = {}
@@ -168,9 +151,7 @@ class Stage:
 		dic['pos4'] = self.load_sound(os.path.join(self.path,'audio/syllable/'+syllable+'pos4.ogg'))
 		
 		return dic
-#	}}}
 
-#	{{{ play_instruction
 	def play_instruction(self,instr,clean=True):
 		
 		self.instr = instr
@@ -190,40 +171,28 @@ class Stage:
 				break
 			
 			self.mainClock.tick(20)
-#	}}}
 
-#	{{{ position_center_width
 	def position_center_width(self,item):
 
 		return self.windowwidth/2 - item.get_size()[0]/2
-#	}}}
 
-#	{{{ position_center_height
 	def position_center_height(self,item):
 
 		return self.windowheight/2 - item.get_size()[1]/2
-#	}}}
 
-#	{{{ draw
 	def draw(self,image,dest=(0,0)):
 
 		self.surface.blit(image,dest)
 		pygame.display.update()
-#	}}}
 
-#	{{{ draw_left
 	def draw_left(self,image):
 
 		self.surface.blit(image,((self.windowwidth/2-image.get_width())/2,self.position_center_height(image)))
-#	}}}
 
-#	{{{ draw_right
 	def draw_right(self,image):
 
 		self.surface.blit(image,(self.windowwidth/2 + (self.windowwidth/2-image.get_width())/2,self.position_center_height(image)))
-#	}}}
 
-#	{{{ standart_event
 	def standart_event(self,event):
 
 		if event.type == QUIT:
@@ -237,16 +206,12 @@ class Stage:
 				self.toggle_fullsreen()
 			if event.key == K_F12 and pygame.mixer.music.get_busy():
 				pygame.mixer.music.stop()
-#	}}}
 
-#	{{{ watch_keypress
 	def watch_keypress(self):
 
 		for event in pygame.event.get():
 			self.standart_event(event)
-#	}}}
 
-#	{{{ teach_monster
 	def teach_monster(self,image,sound,resize=True):
  
 		self.surface.fill(self.bg_blank)
@@ -263,25 +228,20 @@ class Stage:
 		self.watch_keypress()
 #	}}}
 
-#	{{{ transform_height
 	def transform_height(self,item,width):
 
 		x = item.get_size()[0]
 		y = item.get_size()[1]
 		ratio = float(y)/float(x)
 		return int(width * ratio)
-#	}}}
 
-#	{{{ transform_width
 	def transform_width(self,item,height):
 
 		x = item.get_size()[0]
 		y = item.get_size()[1]
 		ratio = float(x)/float(y)
 		return int(height * ratio)
-#	}}}
 
-#	{{{ test_monster
 	def test_monster(self,monster,dic,data,log,response=True,n=8,break_when=False):
 
 		miss = 0
@@ -380,15 +340,11 @@ class Stage:
 
 
 		return miss
-#	}}}
 
-#	{{{ blank
 	def blank(self):
 		self.surface.fill(self.bg_blank)
 		pygame.display.update()
-#	}}}
 
-#	{{{ draw_mouse_instruction
 	def draw_mouse_instruction(self,left,right,mouse,resize=True,highlight=None):
 		self.blank()
 
@@ -416,17 +372,13 @@ class Stage:
 			mouse = pygame.transform.scale(mouse,(self.transform_width(mouse,int(self.windowheight/3)),int(self.windowheight/3)))
 			self.surface.blit(mouse,(int((self.windowwidth-mouse.get_width())/2),int(self.windowheight/2+self.windowheight/9)))
 		pygame.display.update()
-#	}}}
 
-#	{{{ redraw_mouse
 	def redraw_mouse(self,mouse):
 		mouse = pygame.image.load(os.path.join(self.path,mouse))
 		mouse = pygame.transform.scale(mouse,(self.transform_width(mouse,int(self.windowheight/3)),int(self.windowheight/3)))
 		self.surface.blit(mouse,(int((self.windowwidth-mouse.get_width())/2),int(self.windowheight/2+self.windowheight/9)))
 		pygame.display.update()
-#	}}}
 
-#	{{{ draw_beginning
 	def draw_beginning(self,left,right,resize=True):
 		l = pygame.image.load(os.path.join(self.path,left))
 		r = pygame.image.load(os.path.join(self.path,right))
@@ -439,14 +391,10 @@ class Stage:
 		self.draw_left(l)
 		self.draw_right(r)
 		pygame.display.update()
-#	}}}
 
-#	}}}
 
-#	{{{ class Monster1
 class Monster1(Stage):
 
-#	{{{ __init__
 	def __init__(self):
 		log = Monster_Logger2('monster1')
 		Stage.__init__(self,True)
@@ -495,9 +443,7 @@ class Monster1(Stage):
 		self.test_monster(monster,sound_dic,Trial_Data('level/data/mon1/test.dat'),log,False,20)
 
 		self.play_instruction('audio/quit.ogg')
-#	}}}
 
-#	{{{ show_monster
 	def show_monster(self,monster,sound,green,resize=True):
 
 		self.surface.fill(self.bg_blank)
@@ -523,9 +469,7 @@ class Monster1(Stage):
 			arrow = pygame.image.load(os.path.join(self.path,'images/arrow_r.png'))
 			self.draw(arrow,(870,320))
 		pygame.time.wait(2000)
-#	}}}
 
-#	{{{ load_monster_sound
 	def load_monster_sound(self):
 
 		sound_dic = {}
@@ -561,14 +505,10 @@ class Monster1(Stage):
 		sound_dic[1]['neg'].append(self.load_sound(os.path.join(self.path,'audio/neg_resp_M2_1.ogg')))
 
 		return sound_dic
-#	}}}
 
-#	}}}
 
-#	{{{ class Monster2
 class Monster2(Monster1):
 
-#	{{{ __init__
 	def __init__(self):
 		log = Monster_Logger2('monster2')
 		Stage.__init__(self,True)
@@ -618,14 +558,9 @@ class Monster2(Monster1):
 		self.test_monster(monster,sound_dic,Trial_Data('level/data/mon2/test.dat'),log,False,20)
 		
 		self.play_instruction('audio/quit.ogg')
-#	}}}
 
-#	}}}
 
-#	{{{ class Monster3
 class Monster3(Monster1):
-
-#	{{{ __init__
 
 	def __init__(self):
 		log = Monster_Logger2('monster3')
@@ -699,18 +634,12 @@ class Monster3(Monster1):
 
 		self.play_instruction('audio/m3/end.ogg')
 
-#	}}}
-
-#	{{{ load_sprite
 	def load_sprite(self,path):
 
 		image = pygame.image.load(os.path.join(self.path,path))
 		image = pygame.transform.scale(image,(self.transform_width(image,int(self.windowheight/3)),int(self.windowheight/3)))
 		return image
 
-#	}}}
-
-#	{{{ show_stuff
 	def show_stuff(self,top,sprite):
 		self.blank()
 		self.draw_three_sprites(top,sprite)
@@ -721,17 +650,12 @@ class Monster3(Monster1):
 			for event in pygame.event.get():
 				if event.type == MOUSEBUTTONDOWN:
 					goon = False
-#	}}}
 
-#	{{{ draw_three_sprites
 	def draw_three_sprites(self,top,sprite):
 		self.surface.blit(top['l'],(int((self.windowwidth/2-top['l'].get_width())/2),int(self.windowheight/9)))
 		self.surface.blit(top['r'],(int((self.windowwidth/2-top['r'].get_width())/2 + self.windowwidth/2),int(self.windowheight/9)))
 		self.surface.blit(sprite,(int((self.windowwidth-sprite.get_width())/2),int(self.windowheight/2+self.windowheight/9)))
 		pygame.display.update()
-#	}}}
-
-#	{{{ cookie_test
 
 	def cookie_test(self,target,top,data,log):
 		
@@ -785,14 +709,9 @@ class Monster3(Monster1):
 
 			pygame.time.wait(500)
 
-#	}}}
 
-#	}}}
-
-#	{{{ class Morse 1
 class Morse1(Stage):
 
-#	{{{ __init__
 	def __init__(self,beep=False):
 		self.log = Monster_Logger2('morse1')
 		Stage.__init__(self,True,title='Morse',)
@@ -861,9 +780,7 @@ class Morse1(Stage):
 		self.log.add_new_log('test')
 		self.stuff(Trial_Data('level/data/mor1/test.dat'),True)
 		self.play_instruction('audio/morse1/quit.ogg')
-#	}}}
 
-#	{{{ draw_stuff
 	def draw_stuff(self,path):
 		image = pygame.image.load(os.path.join(self.path,path))
 		self.surface.fill(self.bg_blank)
@@ -911,14 +828,10 @@ class Morse1(Stage):
 									time = self.stopwatch.get_time()
 								else:
 									stop = True
-#	}}}
 
-#	}}}
 
-#	{{{ class Morse 2
 class Morse2(Stage):
 
-#	{{{ __init__
 	def __init__(self):
 		self.log = Monster_Logger2('morse2')
 		Stage.__init__(self,True,title='Morse')
@@ -980,9 +893,7 @@ class Morse2(Stage):
 		self.morse('t12',True)
 
 		self.play_instruction('audio/morse1/quit.ogg')
-#	}}}
 
-#	{{{ morse
 	def morse(self,trail,test=False):
 		goon = True
 		self.play_instruction('audio/morse2/'+trail+'.ogg')
@@ -1002,6 +913,4 @@ class Morse2(Stage):
 					elif event.key == K_BACKSPACE:
 						self.play_instruction('audio/morse2/'+trail+'.ogg')
 						self.log.add([trail,'repeat'])
-#	}}}
 
-#	}}}
