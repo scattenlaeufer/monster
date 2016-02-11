@@ -14,7 +14,7 @@ from helpers import Stop_Watch, Trial_Data
 #	}}}
 
 
-class Stage:
+class Stage(object):
 	#generic form of a stage. all actual stages should inherit from this
 
 	def __init__(self,bla=True,neo=False,title='Monster'):
@@ -40,7 +40,9 @@ class Stage:
 		#self.bg_blank = (194,194,194)
 		self.bg_blank = (255,255,255)
 		self.surface.fill(self.bg_blank)
-		self.font1 = pygame.font.Font(None,70)
+		base_size = 70
+		self.font1 = pygame.font.Font(None,base_size)
+		self.font2 = pygame.font.Font(None,base_size*5)
 
 		if neo:
 			self.left = u'xvlcwuiaeoüöäpzXVLCWUIAEOÜÖÄPZ'
@@ -56,7 +58,7 @@ class Stage:
 		return os.path.join(self.path,path)
 
 	def toggle_fullscreen(self):
-		
+		pass
 	#	pygame.display.toggle_fullscreen()
 	#	self.curser_unvisible = pygame.mouse.set_visible(self.curser_unvisible)
 	#	
@@ -90,6 +92,13 @@ class Stage:
 						bla = False
 
 			self.mainClock.tick(20)
+
+	def draw_text_center(self,text,font=None):
+		if not font:
+			font = self.font1
+		text_obj = font.render(text,True,(0,0,0))
+		self.surface.blit(text_obj,(self.position_center_width(text_obj),self.position_center_height(text_obj)))
+		pygame.display.update()
 
 	def stop(self):
 		
@@ -828,6 +837,111 @@ class Morse1(Stage):
 									time = self.stopwatch.get_time()
 								else:
 									stop = True
+
+class Morse1_V2(Stage):
+
+	def __init__(self):
+		#self.log = Monster_Logger2('morse1_v2')
+		super(Morse1_V2,self).__init__(True,title='Morse',)
+		self.start(u'Teil 1')
+
+		self.level_data = {}
+		self.level_data['l1'] = [
+				u'•',
+				u'+',
+				u'•',
+				u'–',
+				u'•',
+				u'+',
+				u'–',
+				u'+']
+		self.level_data['l2'] = [
+				u'– •',
+				u'– –',
+				u'• +',
+				u'• –',
+				u'– +',
+				u'+ –',
+				u'+ •',
+				u'• •']
+		self.level_data['t1'] = [
+				u'– • +',
+				u'• + –',
+				u'+ • –',
+				u'• • –',
+				u'+ – +',
+				u'– – •',
+				u'+ + +',
+				u'– • –']
+		self.level_data['t2'] = [
+				u'+ • – +',
+				u'• + – –',
+				u'+ + – •',
+				u'– • • +',
+				u'+ – + •',
+				u'• – – •',
+				u'• • – +',
+				u'+ – + +']
+		self.level_data['t3'] = [
+				u'• – – • +',
+				u'• • + – +',
+				u'+ • – • –',
+				u'+ + – • –',
+				u'– + • – +',
+				u'• + + • –',
+				u'– – • + +',
+				u'– • – + •']
+		self.level_data['t4'] = [
+				u'• + – + – •',
+				u'+ + • – • •',
+				u'– • – + • +',
+				u'• • – + – •',
+				u'– • – – + •',
+				u'+ – • • + –',
+				u'• – – + + –',
+				u'– + – + – •']
+
+		self.blank()
+		pygame.time.wait(500)
+		self.trial(self.level_data['l1'])
+		pygame.time.wait(500)
+		self.trial(self.level_data['l2'])
+		pygame.time.wait(500)
+		self.trial(self.level_data['t1'])
+		pygame.time.wait(500)
+		self.trial(self.level_data['t2'])
+		pygame.time.wait(500)
+		self.trial(self.level_data['t3'])
+		pygame.time.wait(500)
+		self.trial(self.level_data['t4'])
+
+	def trial(self,trial_data,test=False):
+
+		correct = 0
+		#self.log.set_top(u'trial\tsymbols\tcorrect\ttime')
+		for run in trial_data:
+			if not test and correct >= 1000000:
+				break
+			else:
+
+				pygame.time.wait(500)
+				self.draw_text_center(run,self.font2)
+				stop = False
+
+				while not stop:
+					for event in pygame.event.get():
+						self.standart_event(event)
+						if event.type == KEYDOWN:
+							if event.key == K_RETURN:
+								correct += 1
+								stop = True
+								self.blank()
+								pygame.time.wait(500)
+							elif event.key == K_SPACE:
+								self.blank()
+								pygame.time.wait(500)
+								stop = True
+
 
 
 class Morse2(Stage):
