@@ -11,6 +11,12 @@ from pygame.locals import *
 from helpers.log import Monster_Logger2
 from helpers.dialog import ProbCodeDialog
 from helpers import Stop_Watch, Trial_Data
+
+try:
+	from config import *
+except ImportError:
+	print('Create config.py from defaults.py!')
+	from defaults import *
 #	}}}
 
 
@@ -20,7 +26,8 @@ class Stage(object):
 	def __init__(self,bla=True,neo=False,title='Monster'):
 
 #		self.ask_prob_code('monster1_learn')
-		
+		print(RESOLUTION)
+
 		self.path = __file__[:-10]
 		self.miss = 0
 		self.instr = None
@@ -838,6 +845,7 @@ class Morse1(Stage):
 								else:
 									stop = True
 
+
 class Morse1_V2(Stage):
 
 	def __init__(self):
@@ -941,7 +949,6 @@ class Morse1_V2(Stage):
 								self.blank()
 								pygame.time.wait(500)
 								stop = True
-
 
 
 class Morse2(Stage):
