@@ -15,7 +15,9 @@ from helpers import Stop_Watch, Trial_Data
 try:
 	from config import *
 except ImportError:
-	print('Create config.py from defaults.py!')
+	print('######################################\n'+
+			'# Create config.py from defaults.py! #\n'+
+			'######################################')
 	from defaults import *
 #	}}}
 
