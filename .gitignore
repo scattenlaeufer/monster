@@ -10,3 +10,4 @@ nm*.py
 *.aux
 *.log
 *.out
+*.xcf
