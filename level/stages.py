@@ -28,7 +28,6 @@ class Stage(object):
 	def __init__(self,bla=True,neo=False,title='Monster'):
 
 #		self.ask_prob_code('monster1_learn')
-		print(RESOLUTION)
 
 		self.path = __file__[:-10]
 		self.miss = 0
@@ -851,7 +850,7 @@ class Morse1(Stage):
 class Morse1_V2(Stage):
 
 	def __init__(self):
-		#self.log = Monster_Logger2('morse1_v2')
+		self.log = Monster_Logger2('morse1_v2')
 		super(Morse1_V2,self).__init__(True,title='Morse',)
 		self.start(u'Teil 1')
 
@@ -914,14 +913,26 @@ class Morse1_V2(Stage):
 		#}}}
 
 		audio_path = os.path.join('audio','morse1_2')
+		self.stopwatch = Stop_Watch()
 
 		self.blank()
-		self.play_instruction(os.path.join(audio_path,'instr1.ogg'))
+		self.load_sound(os.path.join(self.path,audio_path,'instr1.ogg')).play()
+		pygame.time.wait(7615)
+		self.draw_text_center(u'•',self.font2)
+		pygame.time.wait(3694)
+		self.blank()
+		self.draw_text_center(u'–',self.font2)
+		pygame.time.wait(4670)
+		self.blank()
+		self.draw_text_center(u'+',self.font2)
+		pygame.time.wait(3964)
+		self.blank()
 		pygame.time.wait(500)
+
 		self.play_instruction(os.path.join(audio_path,'instr2.ogg'))
 		pygame.time.wait(500)
 
-		self.stopwatch = Stop_Watch()
+		pygame.time.wait(100)
 		self.draw_text_center(u'•',self.font2)
 		self.stopwatch.start()
 		self.play_instruction(os.path.join(audio_path,'ta.ogg'),False)
@@ -947,27 +958,47 @@ class Morse1_V2(Stage):
 		self.play_instruction(os.path.join(audio_path,'instr3.ogg'))
 		pygame.time.wait(500)
 
+		self.log.add_new_log('learn1')
 		self.trial(self.level_data['l1'])
 		pygame.time.wait(500)
 
-		self.play_instruction(os.path.join(audio_path,'instr4.ogg'))
+		self.load_sound(os.path.join(self.path,audio_path,'instr4.ogg')).play()
+		pygame.time.wait(2039)
+		self.draw(pygame.image.load(os.path.join(self.path,'images','morse_v2','show.png')))
+		pygame.display.update()
+		pygame.time.wait(6795)
+		self.draw(pygame.image.load(os.path.join(self.path,'images','morse_v2','show_dot.png')))
+		pygame.display.update()
+		pygame.time.wait(4147)
+		self.draw(pygame.image.load(os.path.join(self.path,'images','morse_v2','show_dash.png')))
+		pygame.display.update()
+		pygame.time.wait(4599)
+		self.draw(pygame.image.load(os.path.join(self.path,'images','morse_v2','show_cross.png')))
+		pygame.display.update()
+		pygame.time.wait(3485)
+		self.blank()
 		pygame.time.wait(500)
 
 		self.play_instruction(os.path.join(audio_path,'go.ogg'))
 		pygame.time.wait(500)
 
+		self.log.add_new_log('learn2')
 		self.trial(self.level_data['l2'])
 		pygame.time.wait(500)
 
 		self.play_instruction(os.path.join(audio_path,'intro_test.ogg'))
 		pygame.time.wait(500)
 
+		self.log.add_new_log('test1')
 		self.trial(self.level_data['t1'])
 		pygame.time.wait(500)
+		self.log.add_new_log('test2')
 		self.trial(self.level_data['t2'])
 		pygame.time.wait(500)
+		self.log.add_new_log('test3')
 		self.trial(self.level_data['t3'])
 		pygame.time.wait(500)
+		self.log.add_new_log('test4')
 		self.trial(self.level_data['t4'])
 
 		pygame.time.wait(500)
@@ -985,7 +1016,9 @@ class Morse1_V2(Stage):
 
 				pygame.time.wait(500)
 				self.draw_text_center(run,self.font2)
+				self.stopwatch.stop()
 				stop = False
+				time = self.stopwatch.get_time()
 
 				while not stop:
 					for event in pygame.event.get():
@@ -1010,9 +1043,6 @@ class Morse2(Stage):
 		self.start('Teil 2')
 
 		self.surface.fill(self.bg_blank)
-		pygame.display.update()
-		self.play_instruction('audio/morse2/instr1.ogg')
-
 		pygame.time.wait(1000)
 
 		self.play_instruction('audio/intro_train.ogg')
