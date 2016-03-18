@@ -855,6 +855,7 @@ class Morse1_V2(Stage):
 		super(Morse1_V2,self).__init__(True,title='Morse',)
 		self.start(u'Teil 1')
 
+		#{{{ level data
 		self.level_data = {}
 		self.level_data['l1'] = [
 				u'•',
@@ -910,13 +911,57 @@ class Morse1_V2(Stage):
 				u'+ – • • + –',
 				u'• – – + + –',
 				u'– + – + – •']
+		#}}}
+
+		audio_path = os.path.join('audio','morse1_2')
+
+		self.blank()
+		self.play_instruction(os.path.join(audio_path,'instr1.ogg'))
+		pygame.time.wait(500)
+		self.play_instruction(os.path.join(audio_path,'instr2.ogg'))
+		pygame.time.wait(500)
+
+		self.stopwatch = Stop_Watch()
+		self.draw_text_center(u'•',self.font2)
+		self.stopwatch.start()
+		self.play_instruction(os.path.join(audio_path,'ta.ogg'),False)
+		pygame.time.wait(500)
 
 		self.blank()
 		pygame.time.wait(500)
+
+		self.draw_text_center(u'–',self.font2)
+		self.play_instruction(os.path.join(audio_path,'maa.ogg'),False)
+		pygame.time.wait(500)
+
+		self.blank()
+		pygame.time.wait(500)
+
+		self.draw_text_center('+',self.font2)
+		self.play_instruction(os.path.join(audio_path,'gaa.ogg'),False)
+		pygame.time.wait(500)
+
+		self.blank()
+		pygame.time.wait(500)
+
+		self.play_instruction(os.path.join(audio_path,'instr3.ogg'))
+		pygame.time.wait(500)
+
 		self.trial(self.level_data['l1'])
 		pygame.time.wait(500)
+
+		self.play_instruction(os.path.join(audio_path,'instr4.ogg'))
+		pygame.time.wait(500)
+
+		self.play_instruction(os.path.join(audio_path,'go.ogg'))
+		pygame.time.wait(500)
+
 		self.trial(self.level_data['l2'])
 		pygame.time.wait(500)
+
+		self.play_instruction(os.path.join(audio_path,'intro_test.ogg'))
+		pygame.time.wait(500)
+
 		self.trial(self.level_data['t1'])
 		pygame.time.wait(500)
 		self.trial(self.level_data['t2'])
@@ -924,6 +969,10 @@ class Morse1_V2(Stage):
 		self.trial(self.level_data['t3'])
 		pygame.time.wait(500)
 		self.trial(self.level_data['t4'])
+
+		pygame.time.wait(500)
+		self.play_instruction(os.path.join(audio_path,'quit.ogg'))
+		pygame.time.wait(1000)
 
 	def trial(self,trial_data,test=False):
 
