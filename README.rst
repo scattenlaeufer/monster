@@ -10,3 +10,8 @@ Dependencies
 - `PyQt4 <http://www.riverbankcomputing.co.uk/software/pyqt/download>`_
 
 version 0.1
+
+Documentation
+-------------
+
+A documentation of monster can be found `hear <docu/docu.pdf>`_
