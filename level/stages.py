@@ -64,6 +64,7 @@ class Stage:
 
 	def toggle_fullscreen(self):
 		
+		pass
 	#	pygame.display.toggle_fullscreen()
 	#	self.curser_unvisible = pygame.mouse.set_visible(self.curser_unvisible)
 	#	
@@ -74,8 +75,8 @@ class Stage:
 	#	#	self.windowwidth = 1024
 	#	#	self.windowheight = 768
 
-		#self.surface = pygame.transform.scale(self.surface,(self.windowwidth,self.windowheight))
-		#pygame.display.update()
+	#	#self.surface = pygame.transform.scale(self.surface,(self.windowwidth,self.windowheight))
+	#	#pygame.display.update()
 
 	def start(self,modul):
 	
