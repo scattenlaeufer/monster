@@ -990,16 +990,16 @@ class Morse1_V2(Stage):
 		pygame.time.wait(500)
 
 		self.log.add_new_log('test1')
-		self.trial(self.level_data['t1'])
+		self.trial(self.level_data['t1'],test=True)
 		pygame.time.wait(500)
 		self.log.add_new_log('test2')
-		self.trial(self.level_data['t2'])
+		self.trial(self.level_data['t2'],test=True)
 		pygame.time.wait(500)
 		self.log.add_new_log('test3')
-		self.trial(self.level_data['t3'])
+		self.trial(self.level_data['t3'],test=True)
 		pygame.time.wait(500)
 		self.log.add_new_log('test4')
-		self.trial(self.level_data['t4'])
+		self.trial(self.level_data['t4'],test=True)
 
 		pygame.time.wait(500)
 		self.play_instruction(os.path.join(audio_path,'quit.ogg'))
@@ -1031,10 +1031,16 @@ class Morse1_V2(Stage):
 								self.blank()
 								pygame.time.wait(500)
 							elif event.key == K_SPACE:
-								stop = True
 								self.log.add([0,run,int(False),time])
 								self.blank()
 								pygame.time.wait(500)
+								if not test:
+									pygame.time.wait(500)
+									self.draw_text_center(run,self.font2)
+									self.stopwatch.stop()
+									time = self.stopwatch.get_time()
+								else:
+									stop = True
 
 
 class Morse2(Stage):
