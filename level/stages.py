@@ -524,6 +524,181 @@ class Monster1(Stage):
 		return sound_dic
 
 
+class Monster1_V2(Monster1):
+
+	def __init__(self):
+		self.log = Monster_Logger2('monster1_v2')
+		Stage.__init__(self,True)
+		self.start('Teil 1')
+
+		audio_path = os.path.join(self.path,'audio','m1_v2')
+
+		monster = {
+				'li':os.path.join('images','monster1.jpg'),
+				'ka':os.path.join('images','monster2.jpg'),
+				'me':os.path.join('images','monster_me.jpg'),
+				'ro':os.path.join('images','monster_ro.jpg')}
+
+		self.draw_beginning(monster['li'],monster['ka'],monster['me'],monster['ro'])
+		self.play_instruction(os.path.join(audio_path,'Intro_begin.ogg'),False)
+
+		self.blank()
+		pygame.time.wait(500)
+
+		sound_dic = self.load_monster_sound()
+
+		self.teach_monster(monster['li'],self.load_sound(os.path.join(audio_path,'Intro_pic_M1.ogg')))
+		self.teach_monster(monster['ka'],self.load_sound(os.path.join(audio_path,'Intro_pic_M2.ogg')))
+		self.teach_monster(monster['me'],self.load_sound(os.path.join(audio_path,'Intro_pic_M3.ogg')))
+		self.teach_monster(monster['ro'],self.load_sound(os.path.join(audio_path,'Intro_pic_M4.ogg')))
+		self.teach_monster(monster['li'],self.load_sound(os.path.join(audio_path,'IntroA_pic_M1.ogg')))
+		self.teach_monster(monster['ka'],self.load_sound(os.path.join(audio_path,'IntroA_pic_M2.ogg')))
+		self.teach_monster(monster['me'],self.load_sound(os.path.join(audio_path,'IntroA_pic_M3.ogg')))
+		self.teach_monster(monster['ro'],self.load_sound(os.path.join(audio_path,'IntroA_pic_M4.ogg')))
+
+		self.blank()
+		pygame.time.wait(1000)
+
+		self.blank()
+		self.load_sound(os.path.join(audio_path,'Instr1.ogg')).play()
+		self.draw_mouse_instruction_four_monster(monster,None)
+		pygame.time.wait(3620)
+		self.redraw_mouse(os.path.join('images','maus_g.jpg'))
+		pygame.time.wait(11720)
+		self.redraw_mouse(os.path.join('images','maus_r.jpg'))
+		pygame.time.wait(8840)
+
+		self.blank()
+		pygame.time.wait(1000)
+
+		self.show_monster(monster['li'],sound_dic['li']['bla'],True)
+		pygame.time.wait(750)
+		self.show_monster(monster['li'],sound_dic['me']['bla'],False)
+		pygame.time.wait(750)
+		self.show_monster(monster['ka'],sound_dic['ka']['bla'],True)
+		pygame.time.wait(750)
+		self.show_monster(monster['ka'],sound_dic['li']['bla'],False)
+		pygame.time.wait(750)
+		self.show_monster(monster['me'],sound_dic['me']['bla'],True)
+		pygame.time.wait(750)
+		self.show_monster(monster['me'],sound_dic['ka']['bla'],False)
+		pygame.time.wait(750)
+		self.show_monster(monster['ro'],sound_dic['ro']['bla'],True)
+		pygame.time.wait(750)
+		self.show_monster(monster['ro'],sound_dic['me']['bla'],False)
+		pygame.time.wait(750)
+
+		self.play_instruction(os.path.join(audio_path,'Intro_train.ogg'))
+
+		self.play_instruction(os.path.join(audio_path,'Intro_test.ogg'))
+
+	def load_monster_sound(self):
+		audio_path = os.path.join(self.path,'audio','m1_v2')
+
+		sound_dic = {}
+		sound_dic['li'] = {}
+		sound_dic['li']['bla'] = self.load_sound(os.path.join(audio_path,'M1_Li.ogg'))
+		sound_dic['li']['pos'] = [
+				self.load_sound(os.path.join(audio_path,'Pos_resp_M1_1.ogg')),
+				self.load_sound(os.path.join(audio_path,'Pos_resp_M1_2.ogg')),
+				self.load_sound(os.path.join(audio_path,'Pos_resp_M1_3.ogg'))]
+		sound_dic['li']['neg'] = [
+				self.load_sound(os.path.join(audio_path,'Neg_resp_M1_1.ogg')),
+				self.load_sound(os.path.join(audio_path,'Neg_resp_M1_2.ogg')),
+				self.load_sound(os.path.join(audio_path,'Neg_resp_M1_3.ogg'))]
+
+		sound_dic['ka'] = {}
+		sound_dic['ka']['bla'] = self.load_sound(os.path.join(audio_path,'M2_Ka.ogg'))
+		sound_dic['ka']['pos'] = [
+				self.load_sound(os.path.join(audio_path,'Pos_resp_M2_1.ogg')),
+				self.load_sound(os.path.join(audio_path,'Pos_resp_M2_2.ogg')),
+				self.load_sound(os.path.join(audio_path,'Pos_resp_M2_3.ogg'))]
+		sound_dic['ka']['neg'] = [
+				self.load_sound(os.path.join(audio_path,'Neg_resp_M2_1.ogg')),
+				self.load_sound(os.path.join(audio_path,'Neg_resp_M2_2.ogg')),
+				self.load_sound(os.path.join(audio_path,'Neg_resp_M2_3.ogg'))]
+
+		sound_dic['me'] = {}
+		sound_dic['me']['bla'] = self.load_sound(os.path.join(audio_path,'M3_Me.ogg'))
+		sound_dic['me']['pos'] = [
+				self.load_sound(os.path.join(audio_path,'Pos_resp_M3_1.ogg')),
+				self.load_sound(os.path.join(audio_path,'Pos_resp_M3_2.ogg')),
+				self.load_sound(os.path.join(audio_path,'Pos_resp_M3_3.ogg'))]
+		sound_dic['me']['neg'] = [
+				self.load_sound(os.path.join(audio_path,'Neg_resp_M3_1.ogg')),
+				self.load_sound(os.path.join(audio_path,'Neg_resp_M3_2.ogg')),
+				self.load_sound(os.path.join(audio_path,'Neg_resp_M3_3.ogg'))]
+
+		sound_dic['ro'] = {}
+		sound_dic['ro']['bla'] = self.load_sound(os.path.join(audio_path,'M4_Ro.ogg'))
+		sound_dic['ro']['pos'] = [
+				self.load_sound(os.path.join(audio_path,'Pos_resp_M4_1.ogg')),
+				self.load_sound(os.path.join(audio_path,'Pos_resp_M4_2.ogg')),
+				self.load_sound(os.path.join(audio_path,'Pos_resp_M4_3.ogg'))]
+		sound_dic['ro']['neg'] = [
+				self.load_sound(os.path.join(audio_path,'Neg_resp_M4_1.ogg')),
+				self.load_sound(os.path.join(audio_path,'Neg_resp_M4_2.ogg')),
+				self.load_sound(os.path.join(audio_path,'Neg_resp_M4_3.ogg'))]
+
+		return sound_dic
+
+	def draw_beginning(self,left_u,right_u,left_d,right_d,resize=True):
+		lu = pygame.image.load(os.path.join(self.path,left_u))
+		ru = pygame.image.load(os.path.join(self.path,right_u))
+		ld = pygame.image.load(os.path.join(self.path,left_d))
+		rd = pygame.image.load(os.path.join(self.path,right_d))
+
+		if resize:
+			lu = pygame.transform.scale(lu,(self.transform_width(lu,int(self.windowheight/4)),int(self.windowheight/4)))
+			ru = pygame.transform.scale(ru,(self.transform_width(ru,int(self.windowheight/4)),int(self.windowheight/4)))
+			ld = pygame.transform.scale(ld,(self.transform_width(ld,int(self.windowheight/4)),int(self.windowheight/4)))
+			rd = pygame.transform.scale(rd,(self.transform_width(rd,int(self.windowheight/4)),int(self.windowheight/4)))
+
+		self.blank()
+		self.surface.blit(lu,((self.windowwidth*1/3-lu.get_width()/2,self.windowheight*1/3-lu.get_height()/2)))
+		self.surface.blit(ru,((self.windowwidth*2/3-ru.get_width()/2,self.windowheight*1/3-ru.get_height()/2)))
+		self.surface.blit(ld,((self.windowwidth*1/3-ld.get_width()/2,self.windowheight*2/3-ld.get_height()/2)))
+		self.surface.blit(rd,((self.windowwidth*2/3-rd.get_width()/2,self.windowheight*2/3-rd.get_height()/2)))
+		pygame.display.update()
+
+	def draw_mouse_instruction_four_monster(self,monster,mouse,resize=True,highlight=None,blank=True):
+		if blank:
+			self.blank()
+
+		left = pygame.image.load(os.path.join(self.path,monster['li']))
+		left_m = pygame.image.load(os.path.join(self.path,monster['ka']))
+		right_m = pygame.image.load(os.path.join(self.path,monster['me']))
+		right = pygame.image.load(os.path.join(self.path,monster['ro']))
+
+		if highlight == 'l':
+			l = 2.1
+			r = 3
+		elif highlight == 'r':
+			l = 3
+			r = 2.1
+		else:
+			l = 5
+			r = 5
+			lm = 5
+			rm = 5
+
+		if resize:
+			left = pygame.transform.scale(left,(self.transform_width(left,int(self.windowheight/l)),int(self.windowheight/l)))
+			right = pygame.transform.scale(right,(self.transform_width(right,int(self.windowheight/r)),int(self.windowheight/r)))
+			left_m = pygame.transform.scale(left_m,(self.transform_width(left,int(self.windowheight/lm)),int(self.windowheight/lm)))
+			right_m = pygame.transform.scale(right_m,(self.transform_width(right,int(self.windowheight/rm)),int(self.windowheight/rm)))
+
+		self.surface.blit(left,(int(self.windowwidth/5-left.get_width()/2),int(self.windowheight/9)))
+		self.surface.blit(left_m,(int(self.windowwidth*2/5-left_m.get_width()/2),int(self.windowheight/9)))
+		self.surface.blit(right_m,(int(self.windowwidth*3/5-right_m.get_width()/2),int(self.windowheight/9)))
+		self.surface.blit(right,(int(self.windowwidth*4/5-right.get_width()/2),int(self.windowheight/9)))
+		if mouse != None:
+			mouse = pygame.image.load(os.path.join(self.path,mouse))
+			mouse = pygame.transform.scale(mouse,(self.transform_width(mouse,int(self.windowheight/3)),int(self.windowheight/3)))
+			self.surface.blit(mouse,(int((self.windowwidth-mouse.get_width())/2),int(self.windowheight/2+self.windowheight/9)))
+		pygame.display.update()
+
+
 class Monster2(Monster1):
 
 	def __init__(self):
