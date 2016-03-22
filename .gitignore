@@ -6,6 +6,7 @@ helpers/*.pyc
 level/*.pyc
 test.py
 todo
+config.py
 nm*.py
 *.aux
 *.log
