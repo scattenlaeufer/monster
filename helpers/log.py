@@ -1,6 +1,7 @@
 import time, string, os, sys
 from PyQt4 import QtGui
 from dialog import ProbCodeDialog, OverwriteDialog
+from codecs import open
 # -*- coding: utf-8 -*-
 
 class Log_Tester:
@@ -15,7 +16,7 @@ class Log_Tester:
 class Monster_Logger:
 
 	def __init__(self,level,prob_code=''):
-		self.log = ''
+		self.log = u''
 		if prob_code == '':
 			probDialog = ProbCodeDilog()
 			prob_code = probDialog.ask()
@@ -33,17 +34,20 @@ class Monster_Logger:
 			os.mkdir(prob_dir)
 
 	def save(self):
-		with open(self.log_file,mode='w') as f:
+		with open(self.log_file,encoding='utf-8',mode='w') as f:
 			f.write(self.log)
 
 	def add(self,entry):
-		self.log += '\n'
-		log_line = ''
+		self.log += u'\n'
+		log_line = u''
 		for i in entry:
 #			if log_line == '':
 #				log_line += str(i)
 #			else:
-			log_line += str(i) + '\t'
+			if type(i) in [str,unicode]:
+				log_line += i + u'\t'
+			else:
+				log_line += str(i) + u'\t'
 		self.log += log_line
 		self.save()
 
@@ -76,5 +80,5 @@ class Monster_Logger2(Monster_Logger):
 			os.mkdir(self.level_dir)
 
 	def add_new_log(self,log):
-		self.log = ''
+		self.log = u''
 		self.log_file = os.path.join(self.level_dir,log)

@@ -1008,7 +1008,7 @@ class Morse1_V2(Stage):
 	def trial(self,trial_data,test=False):
 
 		correct = 0
-		#self.log.set_top(u'trial\tsymbols\tcorrect\ttime')
+		self.log.set_top(u'trial\tsymbols\tcorrect\ttime')
 		for run in trial_data:
 			if not test and correct >= 1000000:
 				break
@@ -1027,12 +1027,14 @@ class Morse1_V2(Stage):
 							if event.key == K_RETURN:
 								correct += 1
 								stop = True
+								self.log.add([0,run,int(True),time])
 								self.blank()
 								pygame.time.wait(500)
 							elif event.key == K_SPACE:
+								stop = True
+								self.log.add([0,run,int(False),time])
 								self.blank()
 								pygame.time.wait(500)
-								stop = True
 
 
 class Morse2(Stage):
