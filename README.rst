@@ -14,4 +14,4 @@ version 0.1
 Documentation
 -------------
 
-A documentation of monster can be found `hear <docu/docu.pdf>`_
+A documentation of monster can be found `here <docu/docu.pdf>`_
