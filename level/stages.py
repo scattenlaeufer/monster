@@ -267,6 +267,7 @@ class Stage(object):
 		sw = Stop_Watch()
 		log.set_top('trial_nr\tkey_pressed\tresponse\tresponse_time')
 		side = []
+		print(data)
 
 		for i in range(data.get_n_trials()):
 			self.surface.fill(self.bg_blank)
@@ -526,8 +527,8 @@ class Monster1(Stage):
 
 class Monster1_V2(Monster1):
 
-	def __init__(self):
-		self.log = Monster_Logger2('monster1_v2')
+	def __init__(self, debug=False):
+		log = Monster_Logger2('monster1_v2')
 		Stage.__init__(self,True)
 		self.start('Teil 1')
 
@@ -539,58 +540,185 @@ class Monster1_V2(Monster1):
 				'me':os.path.join('images','monster_me.jpg'),
 				'ro':os.path.join('images','monster_ro.jpg')}
 
-		self.draw_beginning(monster['li'],monster['ka'],monster['me'],monster['ro'])
-		self.play_instruction(os.path.join(audio_path,'Intro_begin.ogg'),False)
-
-		self.blank()
-		pygame.time.wait(500)
+		#{{{ trial_data
+		trial_data = {
+				'learn': [
+					['ka','me'],
+					['li','li'],
+					['ro','ka'],
+					['me','me'],
+					['ro','ro'],
+					['li','ka'],
+					['li','li'],
+					['ka','ro'],
+					['me','ka'],
+					['ka','ka'],
+					['li','me'],
+					['me','me'],
+					['me','li'],
+					['li','ro'],
+					['ka','ka'],
+					['ro','ro'],
+					['me','ro'],
+					['me','me'],
+					['ro','li'],
+					['ka','ka'],
+					['li','li'],
+					['ka','li'],
+					['ro','ro'],
+					['ro','me'],
+					['ka','me'],
+					['li','li'],
+					['ro','ka'],
+					['li','ka'],
+					['ro','ro'],
+					['li','me'],
+					['me','li'],
+					['me','me'],
+					['ka','ro'],
+					['me','me'],
+					['li','ro'],
+					['me','ka'],
+					['li','li'],
+					['ka','ka'],
+					['ro','ro'],
+					['me','ro'],
+					['me','me'],
+					['ro','li'],
+					['ka','ka'],
+					['li','li'],
+					['ka','li'],
+					['ro','ro'],
+					['ro','me'],
+					['ka','ka'],
+					['li','li'],
+					['ro','ka'],
+					['li','ka'],
+					['ro','ro'],
+					['ka','ka'],
+					['me','li'],
+					['me','me'],
+					['ka','ro'],
+					['me','me'],
+					['ka','me'],
+					['li','ro'],
+					['ro','ro']
+				],
+				'test' : [
+					['me','li'],
+					['li','li'],
+					['me','me'],
+					['ka','me'],
+					['ro','ka'],
+					['ka','ka'],
+					['li','ro'],
+					['me','ka'],
+					['li','li'],
+					['ro','li'],
+					['ka','ka'],
+					['li','ka'],
+					['me','me'],
+					['ro','ro'],
+					['me','ro'],
+					['li','li'],
+					['me','me'],
+					['ro','me'],
+					['ro','ro'],
+					['ka','li'],
+					['li','me'],
+					['ro','ro'],
+					['ka','ka'],
+					['ka','ro'],
+					['me','me'],
+					['li','me'],
+					['ka','ka'],
+					['ro','li'],
+					['me','me'],
+					['ro','ro'],
+					['ro','ka'],
+					['li','li'],
+					['me','ro'],
+					['li','ka'],
+					['ka','ro'],
+					['li','li'],
+					['ka','li'],
+					['ro','ro'],
+					['ka','ka'],
+					['me','ka']
+				]
+			}
+		#}}}
 
 		sound_dic = self.load_monster_sound()
 
-		self.teach_monster(monster['li'],self.load_sound(os.path.join(audio_path,'Intro_pic_M1.ogg')))
-		self.teach_monster(monster['ka'],self.load_sound(os.path.join(audio_path,'Intro_pic_M2.ogg')))
-		self.teach_monster(monster['me'],self.load_sound(os.path.join(audio_path,'Intro_pic_M3.ogg')))
-		self.teach_monster(monster['ro'],self.load_sound(os.path.join(audio_path,'Intro_pic_M4.ogg')))
-		self.teach_monster(monster['li'],self.load_sound(os.path.join(audio_path,'IntroA_pic_M1.ogg')))
-		self.teach_monster(monster['ka'],self.load_sound(os.path.join(audio_path,'IntroA_pic_M2.ogg')))
-		self.teach_monster(monster['me'],self.load_sound(os.path.join(audio_path,'IntroA_pic_M3.ogg')))
-		self.teach_monster(monster['ro'],self.load_sound(os.path.join(audio_path,'IntroA_pic_M4.ogg')))
+		if not debug:
+			self.draw_beginning(monster['li'],monster['ka'],monster['me'],monster['ro'])
+			self.play_instruction(os.path.join(audio_path,'Intro_begin.ogg'),False)
 
-		self.blank()
-		pygame.time.wait(1000)
+			self.blank()
 
-		self.blank()
-		self.load_sound(os.path.join(audio_path,'Instr1.ogg')).play()
-		self.draw_mouse_instruction_four_monster(monster,None)
-		pygame.time.wait(3620)
-		self.redraw_mouse(os.path.join('images','maus_g.jpg'))
-		pygame.time.wait(11720)
-		self.redraw_mouse(os.path.join('images','maus_r.jpg'))
-		pygame.time.wait(8840)
+			pygame.time.wait(500)
 
-		self.blank()
-		pygame.time.wait(1000)
+			self.teach_monster(monster['li'],self.load_sound(os.path.join(audio_path,'Intro_pic_M1.ogg')))
+			self.teach_monster(monster['ka'],self.load_sound(os.path.join(audio_path,'Intro_pic_M2.ogg')))
+			self.teach_monster(monster['me'],self.load_sound(os.path.join(audio_path,'Intro_pic_M3.ogg')))
+			self.teach_monster(monster['ro'],self.load_sound(os.path.join(audio_path,'Intro_pic_M4.ogg')))
+			self.teach_monster(monster['li'],self.load_sound(os.path.join(audio_path,'IntroA_pic_M1.ogg')))
+			self.teach_monster(monster['ka'],self.load_sound(os.path.join(audio_path,'IntroA_pic_M2.ogg')))
+			self.teach_monster(monster['me'],self.load_sound(os.path.join(audio_path,'IntroA_pic_M3.ogg')))
+			self.teach_monster(monster['ro'],self.load_sound(os.path.join(audio_path,'IntroA_pic_M4.ogg')))
 
-		self.show_monster(monster['li'],sound_dic['li']['bla'],True)
-		pygame.time.wait(750)
-		self.show_monster(monster['li'],sound_dic['me']['bla'],False)
-		pygame.time.wait(750)
-		self.show_monster(monster['ka'],sound_dic['ka']['bla'],True)
-		pygame.time.wait(750)
-		self.show_monster(monster['ka'],sound_dic['li']['bla'],False)
-		pygame.time.wait(750)
-		self.show_monster(monster['me'],sound_dic['me']['bla'],True)
-		pygame.time.wait(750)
-		self.show_monster(monster['me'],sound_dic['ka']['bla'],False)
-		pygame.time.wait(750)
-		self.show_monster(monster['ro'],sound_dic['ro']['bla'],True)
-		pygame.time.wait(750)
-		self.show_monster(monster['ro'],sound_dic['me']['bla'],False)
-		pygame.time.wait(750)
+			self.blank()
+			pygame.time.wait(1000)
 
-		self.play_instruction(os.path.join(audio_path,'Intro_train.ogg'))
+			self.blank()
+			self.load_sound(os.path.join(audio_path,'Instr1.ogg')).play()
+			self.draw_mouse_instruction_four_monster(monster,None)
+			pygame.time.wait(3620)
+			self.redraw_mouse(os.path.join('images','maus_g.jpg'))
+			pygame.time.wait(11720)
+			self.redraw_mouse(os.path.join('images','maus_r.jpg'))
+			pygame.time.wait(8840)
 
-		self.play_instruction(os.path.join(audio_path,'Intro_test.ogg'))
+			self.blank()
+			pygame.time.wait(1000)
+
+			self.show_monster(monster['li'],sound_dic['li']['bla'],True)
+			pygame.time.wait(750)
+			self.show_monster(monster['li'],sound_dic['me']['bla'],False)
+			pygame.time.wait(750)
+			self.show_monster(monster['ka'],sound_dic['ka']['bla'],True)
+			pygame.time.wait(750)
+			self.show_monster(monster['ka'],sound_dic['li']['bla'],False)
+			pygame.time.wait(750)
+			self.show_monster(monster['me'],sound_dic['me']['bla'],True)
+			pygame.time.wait(750)
+			self.show_monster(monster['me'],sound_dic['ka']['bla'],False)
+			pygame.time.wait(750)
+			self.show_monster(monster['ro'],sound_dic['ro']['bla'],True)
+			pygame.time.wait(750)
+			self.show_monster(monster['ro'],sound_dic['me']['bla'],False)
+			pygame.time.wait(750)
+
+		if not debug:
+			self.play_instruction(os.path.join(audio_path,'Intro_train.ogg'))
+
+		log.add_new_log('learn')
+		#self.test(monster,sound_dic,trial_data['learn'],log)
+
+		if not debug:
+			self.blank()
+			pygame.time.wait(250)
+			self.play_instruction(os.path.join(audio_path,'Intro_test.ogg'))
+			pygame.time.wait(250)
+
+		log.add_new_log('test')
+		self.test(monster,sound_dic,trial_data['test'],log,response=False)
+
+		if not debug:
+			self.blank()
+			pygame.time.wait(250)
+			self.play_instruction(os.path.join(audio_path,'quit.ogg'))
 
 	def load_monster_sound(self):
 		audio_path = os.path.join(self.path,'audio','m1_v2')
@@ -697,6 +825,90 @@ class Monster1_V2(Monster1):
 			mouse = pygame.transform.scale(mouse,(self.transform_width(mouse,int(self.windowheight/3)),int(self.windowheight/3)))
 			self.surface.blit(mouse,(int((self.windowwidth-mouse.get_width())/2),int(self.windowheight/2+self.windowheight/9)))
 		pygame.display.update()
+
+	def test(self,monster,sound_dic,data,log,response=True,correct_tar=10,counter_tar=30,break_when=True):
+
+		miss = 0
+		correct_resp = 0
+		counter = 0
+		sw = Stop_Watch()
+		log.set_top('')
+
+		for trial in data:
+			self.blank()
+
+			image = pygame.image.load(os.path.join(self.path,monster[trial[0]]))
+			sound = sound_dic[trial[1]]['bla']
+
+			if trial[0] == trial[1]:
+				correct = 1
+			else:
+				correct = 0
+
+			self.draw(image,(self.position_center_width(image),self.position_center_height(image)))
+			pygame.display.update()
+			sound.play()
+
+			key_pressed = False
+			press = None
+			pygame.event.clear()
+
+			while True:
+				for event in pygame.event.get():
+					self.standart_event(event)
+					if event.type == MOUSEBUTTONDOWN:
+						if event.button == 1:
+							sw.stop()
+							press = 0
+							key_pressed = True
+						elif event.button == 3:
+							sw.stop()
+							press = 1
+							key_pressed = True
+				if key_pressed and correct == press:
+					log.add(['blubb'])
+					correct_resp += 1
+					counter += 1
+					if response:
+						if correct == 1:
+							sound_dic[trial[0]]['pos'][random.randint(0,2)].play()
+						else:
+							sound_dic[trial[0]]['pos'][random.randint(0,2)].play()
+						pygame.time.wait(3700)
+					else:
+						pygame.time.wait(250)
+					pygame.event.clear()
+					self.blank()
+					pygame.time.wait(250)
+					break
+				elif press != correct and key_pressed:
+					log.add(['blubb'])
+					miss += 1
+					counter += 1
+					if response:
+						if correct == 1:
+							sound_dic[trial[1]]['neg'][random.randint(0,2)].play()
+						else:
+							sound_dic[trial[0]]['neg'][random.randint(0,2)].play()
+						correct_resp -= 1
+						pygame.time.wait(4500)
+						sound.play()
+						key_pressed = False
+						sw.start()
+					else:
+						pygame.time.wait(250)
+						self.blank()
+						pygame.time.wait(250)
+						break
+					pygame.event.clear()
+				self.mainClock.tick(40)
+			print('counter: '+str(counter)+' | correct: '+str(correct_resp))
+			pygame.time.wait(500)
+			if (correct_resp >= correct_tar or counter >= counter_tar) and break_when:
+				break
+
+		return miss
+
 
 
 class Monster2(Monster1):
