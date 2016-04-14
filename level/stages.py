@@ -533,6 +533,7 @@ class Monster1_V2(Monster1):
 		self.start('Teil 1')
 
 		audio_path = os.path.join(self.path,'audio','m1_v2')
+		sound_dic = self.load_monster_sound()
 
 		monster = {
 				'li':os.path.join('images','monster1.jpg'),
@@ -649,8 +650,6 @@ class Monster1_V2(Monster1):
 			}
 		#}}}
 
-		sound_dic = self.load_monster_sound()
-
 		if not debug:
 			self.draw_beginning(monster['li'],monster['ka'],monster['me'],monster['ro'])
 			self.play_instruction(os.path.join(audio_path,'Intro_begin.ogg'),False)
@@ -704,7 +703,7 @@ class Monster1_V2(Monster1):
 			self.play_instruction(os.path.join(audio_path,'Intro_train.ogg'))
 
 		log.add_new_log('learn')
-		#self.test(monster,sound_dic,trial_data['learn'],log)
+		self.test(monster,sound_dic,trial_data['learn'],log)
 
 		if not debug:
 			self.blank()
@@ -908,7 +907,6 @@ class Monster1_V2(Monster1):
 				break
 
 		return miss
-
 
 
 class Monster2(Monster1):
