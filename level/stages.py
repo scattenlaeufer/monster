@@ -831,7 +831,7 @@ class Monster1_V2(Monster1):
 		correct_resp = 0
 		counter = 0
 		sw = Stop_Watch()
-		log.set_top('')
+		log.set_top('shown\tsound\tcorrect\ttime')
 
 		for trial in data:
 			self.blank()
@@ -847,6 +847,7 @@ class Monster1_V2(Monster1):
 			self.draw(image,(self.position_center_width(image),self.position_center_height(image)))
 			pygame.display.update()
 			sound.play()
+			sw.start()
 
 			key_pressed = False
 			press = None
@@ -865,7 +866,7 @@ class Monster1_V2(Monster1):
 							press = 1
 							key_pressed = True
 				if key_pressed and correct == press:
-					log.add(['blubb'])
+					log.add([trial[0],trial[1],int(press==correct),sw.get_time()])
 					correct_resp += 1
 					counter += 1
 					if response:
@@ -881,7 +882,7 @@ class Monster1_V2(Monster1):
 					pygame.time.wait(250)
 					break
 				elif press != correct and key_pressed:
-					log.add(['blubb'])
+					log.add([trial[0],trial[1],int(press==correct),sw.get_time()])
 					miss += 1
 					counter += 1
 					if response:
