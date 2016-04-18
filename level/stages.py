@@ -1356,6 +1356,158 @@ class Monster3(Monster1):
 			pygame.time.wait(500)
 
 
+class Monster3_V2(Monster3):
+
+	def __init__(self,debug):
+		log = Monster_Logger2('monster3_v2')
+		Stage.__init__(self,True)
+		self.start('Teil 3')
+
+		audio_path = os.path.join(self.path,'audio','m3_v2')
+
+		monster = {
+				'li':self.load_sprite(os.path.join(self.path,'images','monster1.jpg')),
+				'ka':self.load_sprite(os.path.join(self.path,'images','monster2.jpg')),
+				'me':self.load_sprite(os.path.join(self.path,'images','monster_me.jpg')),
+				'ro':self.load_sprite(os.path.join(self.path,'images','monster_ro.jpg'))}
+		cookies = {
+				'li':self.load_sprite(os.path.join(self.path,'images','li_cookie.png')),
+				'ka':self.load_sprite(os.path.join(self.path,'images','ka_cookie.png')),
+				'me':self.load_sprite(os.path.join(self.path,'images','me_cookie.png')),
+				'ro':self.load_sprite(os.path.join(self.path,'images','ro_cookie.png'))}
+
+		if not debug:
+			self.blank()
+			pygame.time.wait(250)
+
+			self.load_sound(os.path.join(audio_path,'Instr3.ogg')).play()
+			self.draw(pygame.image.load(os.path.join(self.path,'images','m3_v2_1.png')))
+			pygame.time.wait(10674)
+			self.draw(pygame.image.load(os.path.join(self.path,'images','m3_v2_2.png')))
+			pygame.time.wait(6434)
+			self.draw(pygame.image.load(os.path.join(self.path,'images','m3_v2_3.png')))
+			pygame.time.wait(9396)
+
+			self.blank()
+			pygame.time.wait(500)
+
+			self.draw_three_sprites({'l':monster['li'],'r':monster['ka']},cookies['li'])
+			self.play_instruction(os.path.join(audio_path,'Instr4.ogg'),False)
+			self.blank()
+			pygame.time.wait(250)
+
+		#{{{ trial_data
+		trial_data = {}
+		trial_data['monster'] = [
+				['me','me','li'],
+				['ro','ka','ro'],
+				['li','ka','li'],
+				['li','li','ro'],
+				['ka','ka','ro'],
+				['ro','ro','li'],
+				['li','me','li'],
+				['me','ka','me'],
+				['me','ro','me'],
+				['ka','li','ka'],
+				['ro','ro','me'],
+				['ka','me','ka'],
+				['ro','ro','me'],
+				['me','me','li'],
+				['ka','ka','ro'],
+				['li','me','li'],
+				['me','ro','me'],
+				['ka','me','ka'],
+				['li','ka','li'],
+				['ro','ro','li']]
+		trial_data['cookies'] = [
+				['ka','ka','ro'],
+				['li','li','ro'],
+				['me','ka','me'],
+				['ka','li','ka'],
+				['ro','ro','me'],
+				['ka','me','ka'],
+				['ro','ro','li'],
+				['me','me','li'],
+				['li','ka','li'],
+				['ro','ka','ro'],
+				['li','me','li'],
+				['me','ro','me'],
+				['me','me','li'],
+				['ro','ka','ro'],
+				['ka','li','ka'],
+				['me','ro','me'],
+				['ka','ka','ro'],
+				['li','me','li'],
+				['ro','ro','me'],
+				['li','ka','li']]
+		#}}}
+
+		if not debug:
+			self.play_instruction(os.path.join(audio_path,'Go.ogg'))
+
+		log.add_new_log('monster')
+		self.cookie_test(trial_data['monster'],monster,cookies,log)
+
+		if not debug:
+			self.blank()
+			self.load_sound(os.path.join(audio_path,'Instr5.ogg')).play()
+			pygame.time.wait(3149)
+			self.draw_three_sprites({'l':cookies['li'],'r':cookies['ka']},monster['li'])
+			pygame.time.wait(13711)
+
+			pygame.time.wait(250)
+			self.play_instruction(os.path.join(audio_path,'Instr6.ogg'))
+
+		log.add_new_log('cookies')
+		self.cookie_test(trial_data['cookies'],cookies,monster,log)
+
+		if not debug:
+			self.play_instruction(os.path.join(audio_path,'End.ogg'))
+
+
+	def cookie_test(self,trial_data,source,target,log):
+		sw = Stop_Watch()
+		trial_nr = 0
+		log.set_top('trial_nr\tleft\tright\tdown\tresponse\tcorrect\tresponse_time')
+
+		for run in trial_data:
+			trial_nr += 1
+			self.blank()
+			if run[0] == run[1]:
+				correct = 0
+			else:
+				correct = 1
+			self.draw_three_sprites({'l':source[run[1]],'r':source[run[2]]},target[run[0]])
+			sw.start()
+
+			key_pressed = False
+			press = None
+			pygame.event.clear()
+
+			while(True):
+				for event in pygame.event.get():
+					self.standart_event(event)
+
+					if event.type == MOUSEBUTTONDOWN:
+						if event.button == 1:
+							sw.stop()
+							press = 0
+							key_pressed = True
+						elif event.button == 3:
+							sw.stop()
+							press = 1
+							key_pressed = True
+
+				if key_pressed:
+					log.add([trial_nr,run[1],run[2],run[0],press,int(correct==press),sw.get_time()])
+					self.blank()
+					break
+
+				self.mainClock.tick(40)
+
+			pygame.time.wait(500)
+
+
 class Morse1(Stage):
 
 	def __init__(self,beep=False):
