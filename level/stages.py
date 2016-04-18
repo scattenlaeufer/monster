@@ -241,7 +241,7 @@ class Stage(object):
 			im = pygame.transform.scale(im,dimension)
 		self.surface.blit(im,(self.position_center_width(im),self.position_center_height(im)))
 		pygame.display.update()
-		pygame.time.wait(3000)
+		pygame.time.wait(3250)
 		self.watch_keypress()
 #	}}}
 
@@ -703,7 +703,7 @@ class Monster1_V2(Monster1):
 			self.play_instruction(os.path.join(audio_path,'Intro_train.ogg'))
 
 		log.add_new_log('learn')
-		self.test(monster,sound_dic,trial_data['learn'],log)
+		self.test(monster,sound_dic,trial_data['learn'],log,correct_tar=20,counter_tar=60)
 
 		if not debug:
 			self.blank()
@@ -712,7 +712,7 @@ class Monster1_V2(Monster1):
 			pygame.time.wait(250)
 
 		log.add_new_log('test')
-		self.test(monster,sound_dic,trial_data['test'],log,response=False)
+		self.test(monster,sound_dic,trial_data['test'],log,response=False,correct_tar=40,counter_tar=40)
 
 		if not debug:
 			self.blank()
@@ -910,6 +910,247 @@ class Monster1_V2(Monster1):
 				break
 
 		return miss
+
+
+class Monster2_V2(Monster1_V2):
+
+	def __init__(self,debug=False):
+		log = Monster_Logger2('monster2_v2')
+		Stage.__init__(self,True)
+		self.start('Teil 2')
+
+		audio_path = os.path.join(self.path,'audio','m2_v2')
+		sound_dic = self.load_symbol_sound(audio_path)
+
+		symbols = {
+				'li':os.path.join('images','li.png'),
+				'ka':os.path.join('images','ka.png'),
+				'me':os.path.join('images','me.JPG'),
+				'ro':os.path.join('images','ro.jpg')}
+
+		#{{{ trial_data
+		trial_data = {}
+		trial_data['learn'] = [
+				['li','li',],
+				['li','ro',],
+				['me','me',],
+				['ka','ro',],
+				['me','li',],
+				['li','me',],
+				['me','me',],
+				['li','li',],
+				['ka','li',],
+				['ka','ka',],
+				['li','ka',],
+				['me','ro',],
+				['ka','ka',],
+				['ro','ka',],
+				['ro','ro',],
+				['me','ka',],
+				['ka','ka',],
+				['ro','ro',],
+				['li','li',],
+				['ro','me',],
+				['ka','me',],
+				['ro','li',],
+				['me','me',],
+				['ro','ro',],
+				['ka','ro',],
+				['ro','ro',],
+				['me','li',],
+				['li','li',],
+				['ro','ro',],
+				['ro','ka',],
+				['ka','ka',],
+				['me','me',],
+				['me','ka',],
+				['ro','ro',],
+				['ka','li',],
+				['ro','me',],
+				['me','ro',],
+				['ka','ka',],
+				['li','ro',],
+				['li','li',],
+				['me','me',],
+				['ro','li',],
+				['ka','me',],
+				['li','ka',],
+				['me','me',],
+				['li','me',],
+				['li','li',],
+				['ka','ka',],
+				['ro','li',],
+				['ka','me',],
+				['li','ka',],
+				['me','me',],
+				['li','me',],
+				['li','li',],
+				['me','me',],
+				['ka','ro',],
+				['ro','ro',],
+				['ro','ka',],
+				['li','li',],
+				['ka','ka',],
+				['me','me',],
+				['me','li',],
+				['ka','ka',],
+				['ka','ka',],
+				['ro','me']
+			]
+		trial_data['test'] = [
+				['ro','me'],
+				['li','li'],
+				['li','me'],
+				['me','me'],
+				['ro','ro'],
+				['ka','ka'],
+				['me','ka'],
+				['ka','ro'],
+				['me','me'],
+				['ro','ro'],
+				['li','li'],
+				['li','ro'],
+				['ka','me'],
+				['ka','ka'],
+				['ro','li'],
+				['li','ka'],
+				['me','me'],
+				['ka','li'],
+				['ro','ro'],
+				['me','li'],
+				['ro','ka'],
+				['me','ro'],
+				['li','li'],
+				['ka','ka'],
+				['ka','me'],
+				['li','me'],
+				['ro','ro'],
+				['ka','ka'],
+				['li','li'],
+				['me','ka'],
+				['li','ka'],
+				['me','me'],
+				['ro','ro'],
+				['ka','li'],
+				['li','li'],
+				['me','me'],
+				['ka','ka'],
+				['me','ro'],
+				['ro','ka'],
+				['ro','li']]
+		#}}}
+
+
+		if not debug:
+			self.draw_beginning(symbols['li'],symbols['ka'],symbols['me'],symbols['ro'])
+			self.play_instruction(os.path.join(audio_path,'Instr_Zeichen.ogg'),False)
+			
+			self.blank()
+			pygame.time.wait(500)
+
+			self.teach_monster(symbols['li'],self.load_sound(os.path.join(audio_path,'Intro_sym_M1.ogg')))
+			self.teach_monster(symbols['ka'],self.load_sound(os.path.join(audio_path,'Intro_sym_M2.ogg')))
+			self.teach_monster(symbols['me'],self.load_sound(os.path.join(audio_path,'Intro_sym_M3.ogg')))
+			self.teach_monster(symbols['ro'],self.load_sound(os.path.join(audio_path,'Intro_sym_M4.ogg')))
+			self.teach_monster(symbols['li'],self.load_sound(os.path.join(audio_path,'IntroA_sym_M1.ogg')))
+			self.teach_monster(symbols['ka'],self.load_sound(os.path.join(audio_path,'IntroA_sym_M2.ogg')))
+			self.teach_monster(symbols['me'],self.load_sound(os.path.join(audio_path,'IntroA_sym_M3.ogg')))
+			self.teach_monster(symbols['ro'],self.load_sound(os.path.join(audio_path,'IntroA_sym_M4.ogg')))
+
+			self.blank()
+			pygame.time.wait(1000)
+
+			self.load_sound(os.path.join(audio_path,'Instr2.ogg')).play()
+			self.draw_mouse_instruction_four_monster(symbols,None)
+			pygame.time.wait(5897)
+			self.redraw_mouse(os.path.join('images','maus_g.jpg'))
+			pygame.time.wait(12558)
+			self.redraw_mouse(os.path.join('images','maus_r.jpg'))
+			pygame.time.wait(6063)
+
+			self.blank()
+			pygame.time.wait(1000)
+
+			self.show_monster(symbols['li'],sound_dic['li']['bla'],True)
+			pygame.time.wait(750)
+			self.show_monster(symbols['li'],sound_dic['me']['bla'],False)
+			pygame.time.wait(750)
+			self.show_monster(symbols['ka'],sound_dic['ka']['bla'],True)
+			pygame.time.wait(750)
+			self.show_monster(symbols['ka'],sound_dic['li']['bla'],False)
+			pygame.time.wait(750)
+			self.show_monster(symbols['me'],sound_dic['me']['bla'],True)
+			pygame.time.wait(750)
+			self.show_monster(symbols['me'],sound_dic['ka']['bla'],False)
+			pygame.time.wait(750)
+			self.show_monster(symbols['ro'],sound_dic['ro']['bla'],True)
+			pygame.time.wait(750)
+			self.show_monster(symbols['ro'],sound_dic['me']['bla'],False)
+			pygame.time.wait(750)
+
+			self.play_instruction(os.path.join(audio_path,'Intro_train.ogg'))
+
+		log.add_new_log('learn')
+		self.test(symbols,sound_dic,trial_data['learn'],log,correct_tar=20,counter_tar=60)
+
+		if not debug:
+			self.blank()
+			pygame.time.wait(250)
+			self.play_instruction(os.path.join(audio_path,'Intro_test.ogg'))
+			pygame.time.wait(250)
+
+		log.add_new_log('test')
+		self.test(symbols,sound_dic,trial_data['test'],log,response=False,correct_tar=40,counter_tar=40)
+
+		if not debug:
+			self.blank()
+			pygame.time.wait(250)
+			self.play_instruction(os.path.join(audio_path,'quit.ogg'))
+			pygame.time.wait(250)
+
+	def load_symbol_sound(self,audio_path):
+		sound_dic = {}
+		sound_dic['li'] = {}
+		sound_dic['li']['bla'] = self.load_sound(os.path.join(audio_path,'M1_Li.ogg'))
+		sound_dic['li']['pos'] = [
+				self.load_sound(os.path.join(audio_path,'Pos_resp_M1_1.ogg')),
+				self.load_sound(os.path.join(audio_path,'Pos_resp_M1_2.ogg')),
+				self.load_sound(os.path.join(audio_path,'Pos_resp_M1_3.ogg'))]
+		sound_dic['li']['neg'] = [
+				self.load_sound(os.path.join(audio_path,'Neg_resp_M1_1.ogg')),
+				self.load_sound(os.path.join(audio_path,'Neg_resp_M1_2.ogg')),
+				self.load_sound(os.path.join(audio_path,'Neg_resp_M1_3.ogg'))]
+		sound_dic['ka'] = {}
+		sound_dic['ka']['bla'] = self.load_sound(os.path.join(audio_path,'M2_Ka.ogg'))
+		sound_dic['ka']['pos'] = [
+				self.load_sound(os.path.join(audio_path,'Pos_resp_M2_1.ogg')),
+				self.load_sound(os.path.join(audio_path,'Pos_resp_M2_2.ogg')),
+				self.load_sound(os.path.join(audio_path,'Pos_resp_M2_3.ogg'))]
+		sound_dic['ka']['neg'] = [
+				self.load_sound(os.path.join(audio_path,'Neg_resp_M2_1.ogg')),
+				self.load_sound(os.path.join(audio_path,'Neg_resp_M2_2.ogg')),
+				self.load_sound(os.path.join(audio_path,'Neg_resp_M2_3.ogg'))]
+		sound_dic['me'] = {}
+		sound_dic['me']['bla'] = self.load_sound(os.path.join(audio_path,'M3_Me.ogg'))
+		sound_dic['me']['pos'] = [
+				self.load_sound(os.path.join(audio_path,'Pos_resp_M3_1.ogg')),
+				self.load_sound(os.path.join(audio_path,'Pos_resp_M3_2.ogg')),
+				self.load_sound(os.path.join(audio_path,'Pos_resp_M3_3.ogg'))]
+		sound_dic['me']['neg'] = [
+				self.load_sound(os.path.join(audio_path,'Neg_resp_M3_1.ogg')),
+				self.load_sound(os.path.join(audio_path,'Neg_resp_M3_2.ogg')),
+				self.load_sound(os.path.join(audio_path,'Neg_resp_M3_3.ogg'))]
+		sound_dic['ro'] = {}
+		sound_dic['ro']['bla'] = self.load_sound(os.path.join(audio_path,'M4_Ro.ogg'))
+		sound_dic['ro']['pos'] = [
+				self.load_sound(os.path.join(audio_path,'Pos_resp_M4_1.ogg')),
+				self.load_sound(os.path.join(audio_path,'Pos_resp_M4_2.ogg')),
+				self.load_sound(os.path.join(audio_path,'Pos_resp_M4_3.ogg'))]
+		sound_dic['ro']['neg'] = [
+				self.load_sound(os.path.join(audio_path,'Neg_resp_M4_1.ogg')),
+				self.load_sound(os.path.join(audio_path,'Neg_resp_M4_2.ogg')),
+				self.load_sound(os.path.join(audio_path,'Neg_resp_M4_3.ogg'))]
+		return sound_dic
 
 
 class Monster2(Monster1):
