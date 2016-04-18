@@ -830,10 +830,12 @@ class Monster1_V2(Monster1):
 		miss = 0
 		correct_resp = 0
 		counter = 0
+		trial_n = 0
 		sw = Stop_Watch()
-		log.set_top('shown\tsound\tcorrect\ttime')
+		log.set_top('trial\tshown\tsound\tcorrect\ttime')
 
 		for trial in data:
+			trial_n += 1
 			self.blank()
 
 			image = pygame.image.load(os.path.join(self.path,monster[trial[0]]))
@@ -866,7 +868,7 @@ class Monster1_V2(Monster1):
 							press = 1
 							key_pressed = True
 				if key_pressed and correct == press:
-					log.add([trial[0],trial[1],int(press==correct),sw.get_time()])
+					log.add([trial_n,trial[0],trial[1],int(press==correct),sw.get_time()])
 					correct_resp += 1
 					counter += 1
 					if response:
@@ -882,7 +884,7 @@ class Monster1_V2(Monster1):
 					pygame.time.wait(250)
 					break
 				elif press != correct and key_pressed:
-					log.add([trial[0],trial[1],int(press==correct),sw.get_time()])
+					log.add([trial_n,trial[0],trial[1],int(press==correct),sw.get_time()])
 					miss += 1
 					counter += 1
 					if response:
@@ -902,7 +904,7 @@ class Monster1_V2(Monster1):
 						break
 					pygame.event.clear()
 				self.mainClock.tick(40)
-			print('counter: '+str(counter)+' | correct: '+str(correct_resp))
+			print('trial: '+str(trial_n)+' | counter: '+str(counter)+' | correct: '+str(correct_resp))
 			pygame.time.wait(500)
 			if (correct_resp >= correct_tar or counter >= counter_tar) and break_when:
 				break
@@ -1394,8 +1396,10 @@ class Morse1_V2(Stage):
 	def trial(self,trial_data,test=False):
 
 		correct = 0
+		trial_n = 0
 		self.log.set_top(u'trial\tsymbols\tcorrect\ttime')
 		for run in trial_data:
+			trial_n += 1
 			if not test and correct >= 1000000:
 				break
 			else:
@@ -1413,11 +1417,11 @@ class Morse1_V2(Stage):
 							if event.key == K_RETURN:
 								correct += 1
 								stop = True
-								self.log.add([0,run,int(True),time])
+								self.log.add([trial_n,run,int(True),time])
 								self.blank()
 								pygame.time.wait(500)
 							elif event.key == K_SPACE:
-								self.log.add([0,run,int(False),time])
+								self.log.add([trial_n,run,int(False),time])
 								self.blank()
 								pygame.time.wait(500)
 								if not test:
