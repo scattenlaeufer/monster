@@ -5,7 +5,7 @@
 \usepackage[T1]{fontenc}
 \geometry{paper=a4paper,left=20mm,right=20mm,top=2cm,bottom=2cm}
 \author{Bj\"orn Guth}
-\title{Dokumentation der Monster- und Morse-Aufgaben}
+\title{Dokumentation der Morse-Aufgabe}
 
 \newtheorem[M]{thmL}{Definition}
 
@@ -27,7 +27,7 @@ Bevor mit der Installation des eigentlichen Programms begonnen werden kann, müs
 
 Sind die Abhängigkeiten installiert, kann der Quellcode auch schon von einem Git-Repository\footnote{\url{https://github.com/scattenlaeufer/monster}} heruntergeladen und an einem beliebigen Ort entpackt werden. Anschließend ist das Programm startbereit und sollte getestet werden.
 \begin{thmL}[Top-Level]
-	Im weiteren Verlaufe wird der Ordner, in dem sich das eigentliche Programm, also die Pythondateien \verb+monster1.py+, \verb+morse1.py+ usw., befindet, als Top-Level bezeichnet.
+	Im weiteren Verlaufe wird der Ordner, in dem sich das eigentliche Programm, also die Pythondateien \verb+morse1.py+ usw., befindet, als Top-Level bezeichnet.
 \end{thmL}
 Später kann Top-Level nach belieben verschoben werden, da ja keine Installation im eigentlichen Sinne stattgefunden hat. Jedoch sollte darauf geachtete werden, dass die Ordnerstruktur in Top-Level nicht verändert wird.
 
@@ -45,42 +45,6 @@ Es gibt ein paar Tastenbefehle in den Programmen, die dem Nutzer die Arbeit ein 
 	\item {\emph <ESC>}: Hiermit lässt sich das Programm zu jeder Zeit beenden. An manchen Stellen, besonders bei bestimmten Instruktionen, kann das Programm nicht sofort beendet werden, sollte jedoch während dessen <ESC> gedrückt werden, wird zum nächsten möglichen Zeitpunkt beendet.
 \end{itemize}
 
-\section{Monster 1 \& 2}
-Da sich die Aufgaben Monster 1 und 2 nur in der Form des visuellen Stimulus voneinander unterscheiden, der Rest aber identisch ist, werden sie hier gemeinsam behandelt.
-
-\subsection{Durchführung}\label{sub:dur}
-Das Programm wird wie in \autoref{start} beschrieben gestartet. Monster 1 und 2 bestehen aus zwei Teilen: Einer Lernphase und dem anschließenden eigentlichen Test. Als Eingabegerät ist eine Maus vorgesehen, wobei die linke Maustaste als Eingabe für Falsch und die rechte für Richtig genutzt wird. Dies sollte auf der Maus durch einen roten und einen grünen Aufkleber signalisiert werden.
-
-Der primäre Unterschied zwischen der Lernphase und dem Test ist, dass während der Lernphase eine Rückmeldung zu den gegebenen Antworten gegeben wird und gegeben Falls der Trial wiederholt wird. Beim Test geschieht dies nicht. Abgesehen davon, sollten die Programme reibungslos und komplett automatisiert ablaufen.
-
-\subsection{Auswertung}\label{sub:m1.aus}
-Um einer automatisierte Auswertung zu ermöglichen, werden im Ordner \verb+helpers/trial_log/<PROBCODE>+ jeweils ein Ordner für monster1 und monster2 angelegt, in welchen sich wiederum jeweils eine Datei \verb+learn+ und \verb+test+ befinden. Darin werden für jeden Trial die Trial-Nr., die gedrückte Taste und der entsprechende Response gespeichert. Zusätzlich wird auch die Reaktionszeit zwischen dem Präsentieren des Stimulus und dem Drücken der Taste gespeichert.
-
-Die gedrückte Taste und der Response sind wie folgt kodiert:\\
-\begin{table}[h!]
-	\begin{center}
-		\begin{tabular}{|l|c|c|}
-			\hline
-			& 0 & 1 \\
-			\hline \hline
-			gedrückte Taste & linke Maustaste & rechte Maustaste\\
-			\hline
-			Response & falsch & richtig \\
-			\hline
-		\end{tabular}
-		\caption{Kodierung des Tastendrucks und des Response in Log-Dateien}\label{tab:resp}
-	\end{center}
-\end{table}
-
-\section{Monster 3}
-Monster 3 ist nun eine Weiterführung der Aufgaben Monster 1 und 2.
-
-\subsection{Durchführung}
-Die Durchführung lehnt sich im Großen und Ganzen an die von Monster 1 und 2 wie in \autoref{sub:dur} beschrieben an.
-
-\subsection{Auswertung}
-Wie in für Monster 1 und 2 in \autoref{sub:m1.aus} schon beschrieben, wird auch hier ein Ordner \verb+monster3+ in \verb+helpers/trial_log/<PROBCODE>+ angelegt, in welchem die erstellten Log-Dateien gespeichert werden. Da diese Aufgabe aber dreigeteilt ist, werden auch drei Log-Dateien gespeichert: Zum einen die Dateien \verb+cookie+ und \verb+monster+ für die beiden Übungsaufgaben und zum anderen \verb+test+ für den eigentlichen Test. Die Einträge entsprächen dabei den schon in \autoref{sub:m1.aus} beschriebenen.
-
 \section{Morse 1}
 Morse 1 ist wiederum ein komplett anderes Szenario. Zur Durchführung ist neben einem separaten Programm zur Aufnahme von Audio (hier sei Audacity\footnote{\url{http://audacity.sourceforge.net/}} empfohlen) auch ein Mikrofon und ein Setup, welches sowohl Audio ausgeben als auch aufnehmen kann, von Nöten.
 
@@ -96,19 +60,10 @@ Im eigentlich geplanten Verlauf der Auswertung müssen die Zeit des Punktes der 
 \begin{itemize}
 	\item \emph{trial}: die laufende Nummer des Trials
 	\item \emph{image}: das präsentierte Bild
-	\item \emph{correct}: der nach \autoref{tab:resp} kodierte Response
+	\item \emph{correct}: der kodierte Response
 	\item \emph{time\_m}: ???
 	\item \emph{time\_r}: ???
 	\item \emph{time\_response}: die Zeit zwischen Präsentation des Stimulus und der finalen Äußerung
 \end{itemize}
 Generell ist das Problem der unzuverlässigen Synchronisation aber ein Problem, welches vor einer erneuten Verwendung nochmals überdacht und nach Möglichkeit gelöst werden sollte.
-
-\section{Morse 2}
-Morse 2 ist nun das genaue Gegenteil von Morse 1: hier soll der Proband die vorgelesenen Zeichen aufschreiben.
-
-\subsection{Durchführung}
-Das Programm muss wie in \autoref{start} beschrieben gestartet werden. Nach einer kleinen Einführung soll der Proband dann die präsentierten Zeichen wie in der Einführung beschrieben aufschreiben. Jeder Trail wird mit <SPACE> und <ENTER> bestätigt, wobei, wie auch schon bei Morse 1, ersteres für einen falschen und letzteres für einen richtigen Response steht.
-
-\subsection{Auswertung}
-Die Auswertung von Morse 2 findet zum größten Teil außerhalb des Programms statt. So wird in Morse 2 nur die Trial-Nummer und der gegebene Response geloggt. Die entsprechende Log-Datei ist in \verb+helpers/trial_log/<PROBANDENCODE>/morse2+ zu finden.
 \end{document}
