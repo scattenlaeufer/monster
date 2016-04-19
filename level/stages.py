@@ -608,9 +608,9 @@ class Monster1_V2(Monster1):
 				'test' : [
 					['me','li'],
 					['li','li'],
-					['me','me'],
 					['ka','me'],
 					['ro','ka'],
+					['me','me'],
 					['ka','ka'],
 					['li','ro'],
 					['me','ka'],
@@ -1003,10 +1003,10 @@ class Monster2_V2(Monster1_V2):
 		trial_data['test'] = [
 				['ro','me'],
 				['li','li'],
-				['me','me'],
 				['li','me'],
 				['ro','ro'],
 				['ka','ka'],
+				['me','me'],
 				['me','ka'],
 				['ka','ro'],
 				['me','me'],
