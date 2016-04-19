@@ -1038,9 +1038,9 @@ class Monster2_V2(Monster1_V2):
 				['li','li'],
 				['me','me'],
 				['ka','ka'],
-				['ro','li']]
+				['ro','li'],
 				['me','ro'],
-				['ro','ka'],
+				['ro','ka']]
 		#}}}
 
 
