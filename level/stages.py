@@ -717,7 +717,7 @@ class Monster1_V2(Monster1):
 		if not debug:
 			self.blank()
 			pygame.time.wait(250)
-			self.play_instruction(os.path.join(audio_path,'quit.ogg'))
+			#self.play_instruction(os.path.join(audio_path,'quit.ogg'))
 
 	def load_monster_sound(self):
 		audio_path = os.path.join(self.path,'audio','m1_v2')
@@ -894,6 +894,9 @@ class Monster1_V2(Monster1):
 							sound_dic[trial[0]]['neg'][random.randint(0,2)].play()
 						correct_resp -= 1
 						pygame.time.wait(4500)
+						self.blank()
+						pygame.time.wait(750)
+						self.draw(image,(self.position_center_width(image),self.position_center_height(image)))
 						sound.play()
 						key_pressed = False
 						sw.start()
@@ -1105,8 +1108,8 @@ class Monster2_V2(Monster1_V2):
 		if not debug:
 			self.blank()
 			pygame.time.wait(250)
-			self.play_instruction(os.path.join(audio_path,'quit.ogg'))
-			pygame.time.wait(250)
+			#self.play_instruction(os.path.join(audio_path,'quit.ogg'))
+			#pygame.time.wait(250)
 
 	def load_symbol_sound(self,audio_path):
 		sound_dic = {}
@@ -1782,9 +1785,10 @@ class Morse1_V2(Stage):
 		self.log.add_new_log('test4')
 		self.trial(self.level_data['t4'],test=True)
 
+		self.blank()
 		pygame.time.wait(500)
-		self.play_instruction(os.path.join(audio_path,'quit.ogg'))
-		pygame.time.wait(1000)
+		#self.play_instruction(os.path.join(audio_path,'quit.ogg'))
+		#pygame.time.wait(1000)
 
 	def trial(self,trial_data,test=False):
 
