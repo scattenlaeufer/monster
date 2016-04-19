@@ -1974,6 +1974,7 @@ class Morse2_V2(Morse2):
 		self.morse('ma',audio_path=audio_path)
 		self.morse('ga',audio_path=audio_path)
 
+		if not debug:
 			pygame.time.wait(1000)
 			self.load_sound(os.path.join(audio_path,'Instr4b.ogg')).play()
 			pygame.time.wait(9407)
@@ -2001,6 +2002,7 @@ class Morse2_V2(Morse2):
 		self.morse('2.7',audio_path=audio_path)
 		self.morse('2.8',audio_path=audio_path)
 
+		if not debug:
 			pygame.time.wait(1000)
 			self.play_instruction(os.path.join(audio_path,'Intro_test.ogg'))
 			pygame.time.wait(1000)
