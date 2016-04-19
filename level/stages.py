@@ -1842,6 +1842,7 @@ class Morse2(Stage):
 
 		self.play_instruction('audio/intro_train.ogg')
 
+		#{{{ trials
 		self.log.add_new_log('learn1')
 		self.log.set_top('trail\tcorrect')
 		self.morse('ta')
@@ -1888,19 +1889,20 @@ class Morse2(Stage):
 		self.morse('t10',True)
 		self.morse('t11',True)
 		self.morse('t12',True)
+		#}}}
 
 		self.play_instruction('audio/morse1/quit.ogg')
 
-	def morse(self,trail,test=False):
+	def morse(self,trail,test=False,audio_path=os.path.join('audio','morse2')):
 		goon = True
-		self.play_instruction('audio/morse2/'+trail+'.ogg')
+		self.play_instruction(os.path.join(audio_path,trail+'.ogg'))
 		while goon:
 			for event in pygame.event.get():
 				self.standart_event(event)
 				if event.type == KEYDOWN:
 					if event.key == K_SPACE:
 						if not test:
-							self.play_instruction('audio/morse2/'+trail+'.ogg')
+							self.play_instruction(os.path.join(audio_path,trail+'.ogg'))
 						else:
 							goon = False
 						self.log.add([trail,str(False)])
@@ -1908,6 +1910,142 @@ class Morse2(Stage):
 						goon = False
 						self.log.add([trail,str(True)])
 					elif event.key == K_BACKSPACE:
-						self.play_instruction('audio/morse2/'+trail+'.ogg')
+						self.play_instruction(os.path.join(audio_path,trail+'.ogg'))
 						self.log.add([trail,'repeat'])
+
+
+class Morse2_V2(Morse2):
+
+	def __init__(self,debug=False):
+		self.log = Monster_Logger2('morse2_v2')
+		Stage.__init__(self,True,title="Morse")
+		self.start('Teil 2')
+
+		audio_path = os.path.join(self.path,'audio','morse2_v2')
+
+		self.blank()
+
+		if not debug:
+			pygame.time.wait(500)
+			self.load_sound(os.path.join(audio_path,'Instr1b.ogg')).play()
+			pygame.time.wait(7306)
+			self.draw_text_center(u'•',self.font2)
+			pygame.time.wait(5165)
+			self.blank()
+			self.draw_text_center(u'–',self.font2)
+			pygame.time.wait(5485)
+			self.blank()
+			self.draw_text_center(u'+',self.font2)
+			pygame.time.wait(4752)
+
+			pygame.time.wait(250)
+			self.play_instruction(os.path.join(audio_path,'Instr2b.ogg'))
+
+			pygame.time.wait(500)
+			self.play_instruction(os.path.join(audio_path,'ta.ogg'))
+			self.draw_text_center(u'•',self.font2)
+			pygame.time.wait(2000)
+
+			self.blank()
+			pygame.time.wait(1000)
+			self.play_instruction(os.path.join(audio_path,'ma.ogg'))
+			self.draw_text_center(u'–',self.font2)
+			pygame.time.wait(2000)
+
+			self.blank()
+			pygame.time.wait(1000)
+			self.play_instruction(os.path.join(audio_path,'ga.ogg'))
+			self.draw_text_center(u'+',self.font2)
+			pygame.time.wait(2000)
+
+			self.blank()
+			pygame.time.wait(1000)
+			self.play_instruction(os.path.join(audio_path,'Instr3b.ogg'))
+			pygame.time.wait(1000)
+
+		self.log.add_new_log('learn1')
+		self.log.set_top('trail\tcorrect')
+		self.morse('ma',audio_path=audio_path)
+		self.morse('ga',audio_path=audio_path)
+		self.morse('ta',audio_path=audio_path)
+		self.morse('ma',audio_path=audio_path)
+		self.morse('ga',audio_path=audio_path)
+		self.morse('ta',audio_path=audio_path)
+		self.morse('ma',audio_path=audio_path)
+		self.morse('ga',audio_path=audio_path)
+
+			pygame.time.wait(1000)
+			self.load_sound(os.path.join(audio_path,'Instr4b.ogg')).play()
+			pygame.time.wait(9407)
+			self.draw_text_center(u'•',self.font2)
+			pygame.time.wait(4694)
+			self.blank()
+			self.draw_text_center(u'–',self.font2)
+			pygame.time.wait(5466)
+			self.blank()
+			self.draw_text_center(u'+',self.font2)
+			pygame.time.wait(4377)
+			self.blank()
+			pygame.time.wait(500)
+			self.play_instruction(os.path.join(audio_path,'Go.ogg'))
+			pygame.time.wait(1000)
+
+		self.log.add_new_log('learn2')
+		self.log.set_top('trail\tcorrect')
+		self.morse('2.1',audio_path=audio_path)
+		self.morse('2.2',audio_path=audio_path)
+		self.morse('2.3',audio_path=audio_path)
+		self.morse('2.4',audio_path=audio_path)
+		self.morse('2.5',audio_path=audio_path)
+		self.morse('2.6',audio_path=audio_path)
+		self.morse('2.7',audio_path=audio_path)
+		self.morse('2.8',audio_path=audio_path)
+
+			pygame.time.wait(1000)
+			self.play_instruction(os.path.join(audio_path,'Intro_test.ogg'))
+			pygame.time.wait(1000)
+
+		self.log.add_new_log('test1')
+		self.log.set_top('trail\tcorrect')
+		self.morse('3.1',True,audio_path=audio_path)
+		self.morse('3.2',True,audio_path=audio_path)
+		self.morse('3.3',True,audio_path=audio_path)
+		self.morse('3.4',True,audio_path=audio_path)
+		self.morse('3.5',True,audio_path=audio_path)
+		self.morse('3.6',True,audio_path=audio_path)
+		self.morse('3.7',True,audio_path=audio_path)
+		self.morse('3.8',True,audio_path=audio_path)
+
+		self.log.add_new_log('test2')
+		self.log.set_top('trail\tcorrect')
+		self.morse('4.1',True,audio_path=audio_path)
+		self.morse('4.2',True,audio_path=audio_path)
+		self.morse('4.3',True,audio_path=audio_path)
+		self.morse('4.4',True,audio_path=audio_path)
+		self.morse('4.5',True,audio_path=audio_path)
+		self.morse('4.6',True,audio_path=audio_path)
+		self.morse('4.7',True,audio_path=audio_path)
+		self.morse('4.8',True,audio_path=audio_path)
+
+		self.log.add_new_log('test3')
+		self.log.set_top('trail\tcorrect')
+		self.morse('5.1',True,audio_path=audio_path)
+		self.morse('5.2',True,audio_path=audio_path)
+		self.morse('5.3',True,audio_path=audio_path)
+		self.morse('5.4',True,audio_path=audio_path)
+		self.morse('5.5',True,audio_path=audio_path)
+		self.morse('5.6',True,audio_path=audio_path)
+		self.morse('5.7',True,audio_path=audio_path)
+		self.morse('5.8',True,audio_path=audio_path)
+
+		self.log.add_new_log('test4')
+		self.log.set_top('trail\tcorrect')
+		self.morse('6.1',True,audio_path=audio_path)
+		self.morse('6.2',True,audio_path=audio_path)
+		self.morse('6.3',True,audio_path=audio_path)
+		self.morse('6.4',True,audio_path=audio_path)
+		self.morse('6.5',True,audio_path=audio_path)
+		self.morse('6.6',True,audio_path=audio_path)
+		self.morse('6.7',True,audio_path=audio_path)
+		self.morse('6.8',True,audio_path=audio_path)
 
