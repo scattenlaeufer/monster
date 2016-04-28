@@ -935,10 +935,12 @@ class Monster2_V2(Monster1_V2):
 		trial_data = {}
 		trial_data['learn'] = [
 				['li','li'],
+				['ro','me'],
 				['me','me'],
 				['li','ro'],
 				['ka','ro'],
 				['me','li'],
+				['ro','li'],
 				['li','me'],
 				['me','me'],
 				['li','li'],
@@ -955,7 +957,6 @@ class Monster2_V2(Monster1_V2):
 				['li','li'],
 				['ro','me'],
 				['ka','me'],
-				['ro','li'],
 				['me','me'],
 				['ro','ro'],
 				['ka','ro'],
@@ -997,7 +998,6 @@ class Monster2_V2(Monster1_V2):
 				['ro','ka'],
 				['me','li'],
 				['ka','ka'],
-				['ro','me'],
 				['ka','ka']
 			]
 		trial_data['test'] = [
@@ -1052,12 +1052,26 @@ class Monster2_V2(Monster1_V2):
 			pygame.time.wait(500)
 
 			self.teach_monster(symbols['li'],self.load_sound(os.path.join(audio_path,'Intro_sym_M1.ogg')))
+			self.blank()
+			pygame.time.wait(500)
 			self.teach_monster(symbols['ka'],self.load_sound(os.path.join(audio_path,'Intro_sym_M2.ogg')))
+			self.blank()
+			pygame.time.wait(500)
 			self.teach_monster(symbols['me'],self.load_sound(os.path.join(audio_path,'Intro_sym_M3.ogg')))
+			self.blank()
+			pygame.time.wait(500)
 			self.teach_monster(symbols['ro'],self.load_sound(os.path.join(audio_path,'Intro_sym_M4.ogg')))
+			self.blank()
+			pygame.time.wait(500)
 			self.teach_monster(symbols['li'],self.load_sound(os.path.join(audio_path,'IntroA_sym_M1.ogg')))
+			self.blank()
+			pygame.time.wait(500)
 			self.teach_monster(symbols['ka'],self.load_sound(os.path.join(audio_path,'IntroA_sym_M2.ogg')))
+			self.blank()
+			pygame.time.wait(500)
 			self.teach_monster(symbols['me'],self.load_sound(os.path.join(audio_path,'IntroA_sym_M3.ogg')))
+			self.blank()
+			pygame.time.wait(500)
 			self.teach_monster(symbols['ro'],self.load_sound(os.path.join(audio_path,'IntroA_sym_M4.ogg')))
 
 			self.blank()
