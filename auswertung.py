@@ -13,18 +13,22 @@ preset = preset_dia.ask()
 
 prob_file = os.path.join('helpers','trial_log',prob_code,'morse1','test')
 
-with open(os.path.join('helpers','trial_log',prob_code,'morse1','in'),'r') as file:
-	_input = file.read()
+if preset != 0:
+	with open(os.path.join('helpers','trial_log',prob_code,'morse1','in'),'r') as file:
+		_input = file.read()
 
-y = []
-_input_line = _input.split('\n')
-for i in _input_line:
-	if i != '':
-		if '\r' in i:
-			i = i[:-1]
-		y_str = i.split('.')
-		y_a = y_str[1].split(',')
-		y.append(int(y_str[0])*60 + int(y_a[0]) + float(y_a[1]) /(10**len(y_a[1])))
+	y = []
+	_input_line = _input.split('\n')
+	for i in _input_line:
+		if i != '':
+			if '\r' in i:
+				i = i[:-1]
+			y_str = i.split('.')
+			y_a = y_str[1].split(',')
+			y.append(int(y_str[0])*60 + int(y_a[0]) + float(y_a[1]) /(10**len(y_a[1])))
+else:
+	y = [0]*100
+#exit()
 
 with open(prob_file,'r') as file:
 	data = file.read()
